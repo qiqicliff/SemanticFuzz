@@ -1,0 +1,594 @@
+{
+  "torch.nn.functional.conv2d": {
+    "semantics": {
+      "definition": "Applies a 2D convolution over an input image composed of several input\nplanes.",
+      "syntax_constraint": "For ``padding='same'``, if the ``weight`` is even-length and\ndilation is odd in any dimension, a full :func:`pad` operation\nmay be needed internally. Lowering performance.\n\nThis operator supports complex data types i.e. ``complex32, complex64, complex128``.\n\nIn some circumstances when given tensors on a CUDA device and using CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting ``torch.backends.cudnn.deterministic = True``.\n\ngroups: split input into groups, both :math:`\\text{in\\_channels}` and :math:`\\text{out\\_channels}`\nshould be divisible by the number of groups.",
+      "param": {
+        "input": {
+          "description": "input tensor of shape :math:`(\\text{minibatch} , \\text{in\\_channels} , iH , iW)`",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "input: input tensor of shape :math:`(\\text{minibatch} , \\text{in\\_channels} , iH , iW)`"
+        },
+        "weight": {
+          "description": "filters of shape :math:`(\\text{out\\_channels} , \\frac{\\text{in\\_channels}}{\\text{groups}} , kH , kW)`",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "weight: filters of shape :math:`(\\text{out\\_channels} , \\frac{\\text{in\\_channels}}{\\text{groups}} , kH , kW)`"
+        },
+        "bias": {
+          "description": "optional bias tensor of shape :math:`(\\text{out\\_channels})`. Default: ``None``",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "bias: optional bias tensor of shape :math:`(\\text{out\\_channels})`. Default: ``None```"
+        },
+        "stride": {
+          "description": "the stride of the convolving kernel. Can be a single number or a\ntuple `(sH, sW)`. Default: 1",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "stride: the stride of the convolving kernel. Can be a single number or a\ntuple `(sH, sW)`. Default: 1"
+        },
+        "padding": {
+          "description": "implicit paddings on both sides of the input. Can be a string {'valid', 'same'},\nsingle number or a tuple `(padH, padW)`. Default: 0\n``padding='valid'`` is the same as no padding. ``padding='same'`` pads\nthe input so the output has the same shape as the input. However, this mode\ndoesn't support any stride values other than 1.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "padding: implicit paddings on both sides of the input. Can be a string {'valid', 'same'},\nsingle number or a tuple `(padH, padW)`. Default: 0\n``padding='valid'`` is the same as no padding. ``padding='same'`` pads\nthe input so the output has the same shape as the input. However, this mode\ndoesn't support any stride values other than 1."
+        },
+        "dilation": {
+          "description": "the spacing between kernel elements. Can be a single number or\na tuple `(dH, dW)`. Default: 1",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "dilation: the spacing between kernel elements. Can be a single number or\na tuple `(dH, dW)`. Default: 1"
+        },
+        "groups": {
+          "description": "split input into groups, both :math:`\\text{in\\_channels}` and :math:`\\text{out\\_channels}`\nshould be divisible by the number of groups. Default: 1",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "groups: split input into groups, both :math:`\\text{in\\_channels}` and :math:`\\text{out\\_channels}`\nshould be divisible by the number of groups. Default: 1"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Supports TensorFloat32",
+          "variations": [
+            "This operator supports :ref:`TensorFloat32<tf32_on_ampere>`."
+          ],
+          "rationale": "This operator supports :ref:`TensorFloat32<tf32_on_ampere>`."
+        },
+        {
+          "scenario": "Supports complex data types",
+          "variations": [
+            "This operator supports complex data types i.e. ``complex32, complex64, complex128``."
+          ],
+          "rationale": "This operator supports complex data types i.e. ``complex32, complex64, complex128``."
+        },
+        {
+          "scenario": "CUDA+CuDNN may use non-deterministic algorithms",
+          "variations": [
+            "In some circumstances when given tensors on a CUDA device and using CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting ``torch.backends.cudnn.deterministic = True``."
+          ],
+          "rationale": "In some circumstances when given tensors on a CUDA device and using CuDNN, this operator may select a nondeterministic algorithm to increase performance. If this is undesirable, you can try to make the operation deterministic (potentially at a performance cost) by setting ``torch.backends.cudnn.deterministic = True``."
+        },
+        {
+          "scenario": "Padding='same' does not support high efficiency for even-length weights and odd dilation.",
+          "variations": [
+            "For ``padding='same'``, if the ``weight`` is even-length and\ndilation is odd in any dimension, a full :func:`pad` operation\nmay be needed internally. Lowering performance."
+          ],
+          "rationale": "For ``padding='same'``, if the ``weight`` is even-length and\ndilation is odd in any dimension, a full :func:`pad` operation\nmay be needed internally. Lowering performance."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> # With square kernels and equal stride\n>>> filters = torch.randn(8, 4, 3, 3)\n>>> inputs = torch.randn(1, 4, 5, 5)\n>>> F.conv2d(inputs, filters, padding=1)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.amin": {
+    "semantics": {
+      "definition": "Returns the minimum value of each slice of the :attr:`input` tensor in the given\ndimension(s) :attr:`dim`.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "input (Tensor): the input tensor."
+        },
+        "dim": {
+          "description": "the dimension or dimensions to reduce.",
+          "values": [
+            "int or tuple of ints"
+          ],
+          "source": "dim (int or tuple of ints): the dimension or dimensions to reduce."
+        },
+        "keepdim": {
+          "description": "whether the output tensor has :attr:`dim` retained or not.",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool): whether the output tensor has :attr:`dim` retained or not."
+        },
+        "out": {
+          "description": "the output tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "out (Tensor, optional): the output tensor."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Support reduction across multiple dimensions",
+          "variations": [
+            "amax/amin supports reducing on multiple dimensions,"
+          ],
+          "rationale": "amax/amin supports reducing on multiple dimensions,"
+        },
+        {
+          "scenario": "Do not return index",
+          "variations": [
+            "amax/amin does not return indices,"
+          ],
+          "rationale": "amax/amin does not return indices,"
+        },
+        {
+          "scenario": "The gradient is evenly distributed to equal values",
+          "variations": [
+            "amax/amin evenly distributes gradient between equal values,"
+          ],
+          "rationale": "amax/amin evenly distributes gradient between equal values,"
+        },
+        {
+          "scenario": "Unlike the gradient propagation method of max/min",
+          "variations": [
+            "while max(dim)/min(dim) propagates gradient only to a single index in the source tensor."
+          ],
+          "rationale": "while max(dim)/min(dim) propagates gradient only to a single index in the source tensor."
+        },
+        {
+          "scenario": "When keepdim is True, the output tensor has size 1 in the specified dimension",
+          "variations": [
+            "If :attr:`keepdim` is ``True``, the output tensor is of the same size\nas :attr:`input` except in the dimension(s) :attr:`dim` where it is of size 1."
+          ],
+          "rationale": "If :attr:`keepdim` is ``True``, the output tensor is of the same size\nas :attr:`input` except in the dimension(s) :attr:`dim` where it is of size 1."
+        },
+        {
+          "scenario": "When keepdim is False, the output tensor will compress the specified dimension",
+          "variations": [
+            "Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in the\noutput tensor having 1 (or ``len(dim)``) fewer dimension(s)."
+          ],
+          "rationale": "Otherwise, :attr:`dim` is squeezed (see :func:`torch.squeeze`), resulting in the\noutput tensor having 1 (or ``len(dim)``) fewer dimension(s)."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> a = torch.randn(4, 4)\n>>> a\ntensor([[ 0.6451, -0.4866,  0.2987, -1.3312],\n        [-0.5744,  1.2980,  1.8397, -0.2713],\n        [ 0.9128,  0.9214, -1.7268, -0.2995],\n        [ 0.9023,  0.4853,  0.9075, -1.6165]])\n>>> torch.amin(a, 1)\ntensor([-1.3312, -0.5744, -1.7268, -1.6165])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.promote_types": {
+    "semantics": {
+      "definition": "Returns the :class:`torch.dtype` with the smallest size and scalar kind that is\nnot smaller nor of lower kind than either `type1` or `type2`. See type promotion\n:ref:`documentation <type-promotion-doc>` for more information on the type\npromotion logic.",
+      "syntax_constraint": "",
+      "param": {
+        "type1": {
+          "description": ":class:`torch.dtype`",
+          "values": [
+            "torch.dtype"
+          ],
+          "source": "type1 (:class:`torch.dtype`)"
+        },
+        "type2": {
+          "description": ":class:`torch.dtype`",
+          "values": [
+            "torch.dtype"
+          ],
+          "source": "type2 (:class:`torch.dtype`)"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Return the dtype with the smallest size and scalar kind not smaller than that of any input type",
+          "variations": [
+            "Returns the :class:`torch.dtype` with the smallest size and scalar kind that is\nnot smaller nor of lower kind than either `type1` or `type2`."
+          ],
+          "rationale": "Returns the :class:`torch.dtype` with the smallest size and scalar kind that is\nnot smaller nor of lower kind than either `type1` or `type2`."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> torch.promote_types(torch.int32, torch.float32)\ntorch.float32",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> torch.promote_types(torch.uint8, torch.long)\ntorch.long",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.distributed.get_group_rank": {
+    "semantics": {
+      "definition": "Translate a global rank into a group rank.\n\n``global_rank`` must be part of ``group`` otherwise this raises RuntimeError.",
+      "syntax_constraint": "``global_rank`` must be part of ``group`` otherwise this raises RuntimeError.",
+      "param": {
+        "group": {
+          "description": "ProcessGroup to find the relative rank.",
+          "values": [
+            "torch.distributed.distributed_c10d.ProcessGroup"
+          ],
+          "source": "group (ProcessGroup): ProcessGroup to find the relative rank."
+        },
+        "global_rank": {
+          "description": "Global rank to query.",
+          "values": [
+            "int"
+          ],
+          "source": "global_rank (int): Global rank to query."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Convert global rank to within-group rank",
+          "variations": [
+            "Translate a global rank into a group rank."
+          ],
+          "rationale": "Translate a global rank into a group rank."
+        },
+        {
+          "scenario": "Returns the identity mapping when called on the default process group",
+          "variations": [
+            "N.B. calling this function on the default process group returns identity"
+          ],
+          "rationale": "N.B. calling this function on the default process group returns identity"
+        }
+      ],
+      "example": []
+    }
+  },
+  "torch.eye": {
+    "semantics": {
+      "definition": "Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.",
+      "syntax_constraint": "",
+      "param": {
+        "n": {
+          "description": "the number of rows",
+          "values": [
+            "int"
+          ],
+          "source": "n (int): the number of rows"
+        },
+        "m": {
+          "description": "the number of columns with default being :attr:`n`",
+          "values": [
+            "int"
+          ],
+          "source": "m (int, optional): the number of columns with default being :attr:`n`"
+        },
+        "out": {
+          "description": "the output tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "out (Tensor, optional): the output tensor."
+        },
+        "dtype": {
+          "description": "the desired data type of returned tensor.\n            Default: if ``None``, uses a global default (see :func:`torch.set_default_dtype`).",
+          "values": [
+            "torch.dtype"
+          ],
+          "source": "dtype (:class:`torch.dtype`, optional): the desired data type of returned tensor.\n            Default: if ``None``, uses a global default (see :func:`torch.set_default_dtype`)."
+        },
+        "layout": {
+          "description": "the desired layout of returned Tensor.\n            Default: ``torch.strided``.",
+          "values": [
+            "torch.layout"
+          ],
+          "source": "layout (:class:`torch.layout`, optional): the desired layout of returned Tensor.\n            Default: ``torch.strided``."
+        },
+        "device": {
+          "description": "the desired device of returned tensor.\n            Default: if ``None``, uses the current device for the default tensor type\n            (see :func:`torch.set_default_device`). :attr:`device` will be the CPU\n            for CPU tensor types and the current CUDA device for CUDA tensor types.",
+          "values": [
+            "torch.device"
+          ],
+          "source": "device (:class:`torch.device`, optional): the desired device of returned tensor.\n            Default: if ``None``, uses the current device for the default tensor type\n            (see :func:`torch.set_default_device`). :attr:`device` will be the CPU\n            for CPU tensor types and the current CUDA device for CUDA tensor types."
+        },
+        "requires_grad": {
+          "description": "If autograd should record operations on the\n            returned tensor. Default: ``False``.",
+          "values": [
+            "bool"
+          ],
+          "source": "requires_grad (bool, optional): If autograd should record operations on the\n            returned tensor. Default: ``False``."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Create a 2D tensor with 1 on the diagonal and 0 elsewhere",
+          "variations": [
+            "Returns a 2-D tensor with ones on the diagonal and zeros elsewhere."
+          ],
+          "rationale": "Returns a 2-D tensor with ones on the diagonal and zeros elsewhere."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> torch.eye(3)\ntensor([[ 1.,  0.,  0.],\n        [ 0.,  1.,  0.],\n        [ 0.,  0.,  1.]])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.nn.init.constant_": {
+    "semantics": {
+      "definition": "Fill the input Tensor with the value :math:`\\text{val}`.",
+      "syntax_constraint": "",
+      "param": {
+        "tensor": {
+          "description": "an n-dimensional `torch.Tensor`",
+          "values": [
+            "torch.Tensor"
+          ],
+          "source": "tensor: an n-dimensional `torch.Tensor`"
+        },
+        "val": {
+          "description": "the value to fill the tensor with",
+          "values": [
+            "float"
+          ],
+          "source": "val: the value to fill the tensor with"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Fill the input tensor with the specified value",
+          "variations": [
+            "Fill the input Tensor with the value :math:`\\text{val}`."
+          ],
+          "rationale": "Fill the input Tensor with the value :math:`\\text{val}`."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> w = torch.empty(3, 5)\n>>> nn.init.constant_(w, 0.3)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.movedim": {
+    "semantics": {
+      "definition": "Moves the dimension(s) of :attr:`input` at the position(s) in :attr:`source`\n to the position(s) in :attr:`destination`.\n\nOther dimensions of :attr:`input` that are not explicitly moved remain in\ntheir original order and appear at the positions not specified in :attr:`destination`.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "input (Tensor): the input tensor."
+        },
+        "source": {
+          "description": "Original positions of the dims to move. These must be unique.",
+          "values": [
+            "int or tuple of ints"
+          ],
+          "source": "source (int or tuple of ints): Original positions of the dims to move. These must be unique."
+        },
+        "destination": {
+          "description": "Destination positions for each of the original dims. These must also be unique.",
+          "values": [
+            "int or tuple of ints"
+          ],
+          "source": "destination (int or tuple of ints): Destination positions for each of the original dims. These must also be unique."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Move the specified dimension to the target location",
+          "variations": [
+            "Moves the dimension(s) of :attr:`input` at the position(s) in :attr:`source`\n to the position(s) in :attr:`destination`."
+          ],
+          "rationale": "Moves the dimension(s) of :attr:`input` at the position(s) in :attr:`source`\n to the position(s) in :attr:`destination`."
+        },
+        {
+          "scenario": "Dimensions not moved maintain their original order",
+          "variations": [
+            "Other dimensions of :attr:`input` that are not explicitly moved remain in\ntheir original order and appear at the positions not specified in :attr:`destination`."
+          ],
+          "rationale": "Other dimensions of :attr:`input` that are not explicitly moved remain in\ntheir original order and appear at the positions not specified in :attr:`destination`."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> t = torch.randn(3,2,1)\n>>> t\ntensor([[[-0.3362],\n        [-0.8437]],\n\n        [[-0.9627],\n        [ 0.1727]],\n\n        [[ 0.5173],\n        [-0.1398]]])\n>>> torch.movedim(t, 1, 0).shape\ntorch.Size([2, 3, 1])\n>>> torch.movedim(t, 1, 0)\ntensor([[[-0.3362],\n        [-0.9627],\n        [ 0.5173]],\n\n        [[-0.8437],\n        [ 0.1727],\n        [-0.1398]]])",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> torch.movedim(t, (1, 2), (0, 1)).shape\ntorch.Size([2, 1, 3])\n>>> torch.movedim(t, (1, 2), (0, 1))\ntensor([[[-0.3362, -0.9627,  0.5173]],\n\n        [[-0.8437,  0.1727, -0.1398]]])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.cpu.synchronize": {
+    "semantics": {
+      "definition": "Waits for all kernels in all streams on the CPU device to complete.",
+      "syntax_constraint": "",
+      "param": {
+        "device": {
+          "description": "ignored, there's only one CPU device.",
+          "values": [
+            "torch.device",
+            "str",
+            "int",
+            "NoneType"
+          ],
+          "source": "device (torch.device or int, optional): ignored, there's only one CPU device."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Wait for all kernels in all streams on the CPU device to complete",
+          "variations": [
+            "Waits for all kernels in all streams on the CPU device to complete."
+          ],
+          "rationale": "Waits for all kernels in all streams on the CPU device to complete."
+        },
+        {
+          "scenario": "for implementing device-independent code",
+          "variations": [
+            "N.B. This function only exists to facilitate device-agnostic code."
+          ],
+          "rationale": "N.B. This function only exists to facilitate device-agnostic code."
+        }
+      ],
+      "example": []
+    }
+  },
+  "torch.special.logit": {
+    "semantics": {
+      "definition": "Returns a new tensor with the logit of the elements of :attr:`input`.\n:attr:`input` is clamped to [eps, 1 - eps] when eps is not None.\nWhen eps is None and :attr:`input` < 0 or :attr:`input` > 1, the function will yields NaN.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "input (Tensor): the input tensor."
+        },
+        "eps": {
+          "description": "the epsilon for input clamp bound. Default: ``None``",
+          "values": [
+            "float"
+          ],
+          "source": "eps (float, optional): the epsilon for input clamp bound. Default: ``None``"
+        },
+        "out": {
+          "description": "the output tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "out (Tensor, optional): the output tensor."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Apply logit transformation to the input",
+          "variations": [
+            "Returns a new tensor with the logit of the elements of :attr:`input`."
+          ],
+          "rationale": "Returns a new tensor with the logit of the elements of :attr:`input`."
+        },
+        {
+          "scenario": "Clip the input when eps is not None",
+          "variations": [
+            ":attr:`input` is clamped to [eps, 1 - eps] when eps is not None."
+          ],
+          "rationale": ":attr:`input` is clamped to [eps, 1 - eps] when eps is not None."
+        },
+        {
+          "scenario": "Return NaN when eps is None and the input is outside [0,1]",
+          "variations": [
+            "When eps is None and :attr:`input` < 0 or :attr:`input` > 1, the function will yields NaN."
+          ],
+          "rationale": "When eps is None and :attr:`input` < 0 or :attr:`input` > 1, the function will yields NaN."
+        },
+        {
+          "scenario": "logit calculation formula",
+          "variations": [
+            "\\begin{align}\ny_{i} &= \\ln(\\frac{z_{i}}{1 - z_{i}}) \\\\\nz_{i} &= \\begin{cases}\n    x_{i} & \\text{if eps is None} \\\\\n    \\text{eps} & \\text{if } x_{i} < \\text{eps} \\\\\n    x_{i} & \\text{if } \\text{eps} \\leq x_{i} \\leq 1 - \\text{eps} \\\\\n    1 - \\text{eps} & \\text{if } x_{i} > 1 - \\text{eps}\n\\end{cases}\n\\end{align}"
+          ],
+          "rationale": "\\begin{align}\ny_{i} &= \\ln(\\frac{z_{i}}{1 - z_{i}}) \\\\\nz_{i} &= \\begin{cases}\n    x_{i} & \\text{if eps is None} \\\\\n    \\text{eps} & \\text{if } x_{i} < \\text{eps} \\\\\n    x_{i} & \\text{if } \\text{eps} \\leq x_{i} \\leq 1 - \\text{eps} \\\\\n    1 - \\text{eps} & \\text{if } x_{i} > 1 - \\text{eps}\n\\end{cases}\n\\end{align}"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> a = torch.rand(5)\n>>> a\ntensor([0.2796, 0.9331, 0.6486, 0.1523, 0.6516])\n>>> torch.special.logit(a, eps=1e-6)\ntensor([-0.9466,  2.6352,  0.6131, -1.7169,  0.6261])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "torch.argmax": {
+    "semantics": {
+      "definition": "Returns the indices of the maximum value of all elements in the :attr:`input` tensor.\n\nThis is the second value returned by :meth:`torch.max`. See its\ndocumentation for the exact semantics of this method.\n\n.. note:: If there are multiple maximal values then the indices of the first maximal value are returned.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "input (Tensor): the input tensor."
+        },
+        "dim": {
+          "description": "the dimension to reduce. If ``None``, the argmax of the flattened input is returned.",
+          "values": [
+            "int"
+          ],
+          "source": "dim (int): the dimension to reduce. If ``None``, the argmax of the flattened input is returned."
+        },
+        "keepdim": {
+          "description": "whether the output tensor has :attr:`dim` retained or not.",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool): whether the output tensor has :attr:`dim` retained or not."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Return the index of the maximum value in the input tensor",
+          "variations": [
+            "Returns the indices of the maximum value of all elements in the :attr:`input` tensor."
+          ],
+          "rationale": "Returns the indices of the maximum value of all elements in the :attr:`input` tensor."
+        },
+        {
+          "scenario": "Return the index of the maximum value on the specified dimension",
+          "variations": [
+            "Returns the indices of the maximum values of a tensor across a dimension."
+          ],
+          "rationale": "Returns the indices of the maximum values of a tensor across a dimension."
+        },
+        {
+          "scenario": "Return the index of the first one when there are multiple maximums",
+          "variations": [
+            ".. note:: If there are multiple maximal values then the indices of the first maximal value are returned."
+          ],
+          "rationale": ".. note:: If there are multiple maximal values then the indices of the first maximal value are returned."
+        },
+        {
+          "scenario": "Consistent with the semantics of the second return value of torch.max",
+          "variations": [
+            "This is the second value returned by :meth:`torch.max`. See its\ndocumentation for the exact semantics of this method."
+          ],
+          "rationale": "This is the second value returned by :meth:`torch.max`. See its\ndocumentation for the exact semantics of this method."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> a = torch.randn(4, 4)\n>>> a\ntensor([[ 1.3398,  0.2663, -0.2686,  0.2450],\n        [-0.7401, -0.8805, -0.3402, -1.1936],\n        [ 0.4907, -1.3948, -1.0691, -0.3132],\n        [-1.6092,  0.5419, -0.2993,  0.3195]])\n>>> torch.argmax(a)\ntensor(0)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> a = torch.randn(4, 4)\n>>> a\ntensor([[ 1.3398,  0.2663, -0.2686,  0.2450],\n        [-0.7401, -0.8805, -0.3402, -1.1936],\n        [ 0.4907, -1.3948, -1.0691, -0.3132],\n        [-1.6092,  0.5419, -0.2993,  0.3195]])\n>>> torch.argmax(a, dim=1)\ntensor([ 0,  2,  0,  1])",
+          "source": "Document original"
+        }
+      ]
+    }
+  }
+}

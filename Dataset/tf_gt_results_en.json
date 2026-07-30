@@ -1,0 +1,886 @@
+{
+  "tensorflow.keras.layers.SeparableConvolution2D": {
+    "semantics": {
+      "definition": "2D separable convolution layer.\n\nThis layer performs a depthwise convolution that acts separately on\nchannels, followed by a pointwise convolution that mixes channels.\nIf `use_bias` is True and a bias initializer is provided,\nit adds a bias vector to the output. It then optionally applies an\nactivation function to produce the final output.",
+      "syntax_constraint": "strides > 1 is incompatible with dilation_rate > 1.",
+      "param": {
+        "filters": {
+          "description": "int, the dimensionality of the output space (i.e. the number\nof filters in the pointwise convolution).",
+          "values": [
+            "int"
+          ],
+          "source": "filters: int, the dimensionality of the output space (i.e. the number\nof filters in the pointwise convolution)."
+        },
+        "kernel_size": {
+          "description": "int or tuple/list of 2 integers, specifying the size of the\ndepthwise convolution window.",
+          "values": [
+            "int",
+            "tuple",
+            "list"
+          ],
+          "source": "kernel_size: int or tuple/list of 2 integers, specifying the size of the\ndepthwise convolution window."
+        },
+        "strides": {
+          "description": "int or tuple/list of 2 integers, specifying the stride length\nof the depthwise convolution. If only one int is specified, the same\nstride size will be used for all dimensions. `strides > 1` is\nincompatible with `dilation_rate > 1`.",
+          "values": [
+            "int",
+            "tuple",
+            "list"
+          ],
+          "source": "strides: int or tuple/list of 2 integers, specifying the stride length\nof the depthwise convolution. If only one int is specified, the same\nstride size will be used for all dimensions. `strides > 1` is\nincompatible with `dilation_rate > 1`."
+        },
+        "padding": {
+          "description": "string, either \"valid\" or \"same\" (case-insensitive).\n\"valid\" means no padding. \"same\" results in padding evenly to\nthe left/right or up/down of the input. When `padding=\"same\"` and\n`strides=1`, the output has the same size as the input.",
+          "values": [
+            "string"
+          ],
+          "source": "padding: string, either \"valid\" or \"same\" (case-insensitive).\n\"valid\" means no padding. \"same\" results in padding evenly to\nthe left/right or up/down of the input. When `padding=\"same\"` and\n`strides=1`, the output has the same size as the input."
+        },
+        "data_format": {
+          "description": "string, either \"channels_last\" or \"channels_first\".\nThe ordering of the dimensions in the inputs. \"channels_last\"\ncorresponds to inputs with shape `(batch, height, width, channels)`\nwhile \"channels_first\" corresponds to inputs with shape\n`(batch, channels, height, width)`. It defaults to the\n`image_data_format` value found in your Keras config file\nat `~/.keras/keras.json`.\nIf you never set it, then it will be \"channels_last\".",
+          "values": [
+            "string"
+          ],
+          "source": "data_format: string, either \"channels_last\" or \"channels_first\".\nThe ordering of the dimensions in the inputs. \"channels_last\"\ncorresponds to inputs with shape `(batch, height, width, channels)`\nwhile \"channels_first\" corresponds to inputs with shape\n`(batch, channels, height, width)`. It defaults to the\n`image_data_format` value found in your Keras config file\nat `~/.keras/keras.json`.\nIf you never set it, then it will be \"channels_last\"."
+        },
+        "dilation_rate": {
+          "description": "int or tuple/",
+          "values": [
+            "int",
+            "tuple"
+          ],
+          "source": "dilation_rate: int or tuple/"
+        },
+        "depth_multiplier": {
+          "description": "int, the number of depthwise convolution output channels for each input channel.",
+          "values": [
+            "int"
+          ],
+          "source": "depth_multiplier=1"
+        },
+        "activation": {
+          "description": "Activation function to use. If you don't specify anything, no activation is applied (ie. \"linear\" activation: a(x) = x).",
+          "values": [
+            "None"
+          ],
+          "source": "activation=None"
+        },
+        "use_bias": {
+          "description": "Boolean, whether the layer uses a bias vector.",
+          "values": [
+            "bool"
+          ],
+          "source": "use_bias=True"
+        },
+        "depthwise_initializer": {
+          "description": "Initializer for the depthwise kernel matrix.",
+          "values": [
+            "string"
+          ],
+          "source": "depthwise_initializer='glorot_uniform'"
+        },
+        "pointwise_initializer": {
+          "description": "Initializer for the pointwise kernel matrix.",
+          "values": [
+            "string"
+          ],
+          "source": "pointwise_initializer='glorot_uniform'"
+        },
+        "bias_initializer": {
+          "description": "Initializer for the bias vector.",
+          "values": [
+            "string"
+          ],
+          "source": "bias_initializer='zeros'"
+        },
+        "depthwise_regularizer": {
+          "description": "Regularizer function applied to the depthwise kernel matrix.",
+          "values": [
+            "None"
+          ],
+          "source": "depthwise_regularizer=None"
+        },
+        "pointwise_regularizer": {
+          "description": "Regularizer function applied to the pointwise kernel matrix.",
+          "values": [
+            "None"
+          ],
+          "source": "pointwise_regularizer=None"
+        },
+        "bias_regularizer": {
+          "description": "Regularizer function applied to the bias vector.",
+          "values": [
+            "None"
+          ],
+          "source": "bias_regularizer=None"
+        },
+        "activity_regularizer": {
+          "description": "Regularizer function applied to the output of the layer (its 'activation').",
+          "values": [
+            "None"
+          ],
+          "source": "activity_regularizer=None"
+        },
+        "depthwise_constraint": {
+          "description": "Constraint function applied to the depthwise kernel matrix.",
+          "values": [
+            "None"
+          ],
+          "source": "depthwise_constraint=None"
+        },
+        "pointwise_constraint": {
+          "description": "Constraint function applied to the pointwise kernel matrix.",
+          "values": [
+            "None"
+          ],
+          "source": "pointwise_constraint=None"
+        },
+        "bias_constraint": {
+          "description": "Constraint function applied to the bias vector.",
+          "values": [
+            "None"
+          ],
+          "source": "bias_constraint=None"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Perform depthwise separable convolution",
+          "variations": [
+            "This layer performs a depthwise convolution that acts separately on\nchannels, followed by a pointwise convolution that mixes channels."
+          ],
+          "rationale": "This layer performs a depthwise convolution that acts separately on\nchannels, followed by a pointwise convolution that mixes channels."
+        },
+        {
+          "scenario": "Add bias vector",
+          "variations": [
+            "If `use_bias` is True and a bias initializer is provided,\nit adds a bias vector to the output."
+          ],
+          "rationale": "If `use_bias` is True and a bias initializer is provided,\nit adds a bias vector to the output."
+        },
+        {
+          "scenario": "Optional application activation function",
+          "variations": [
+            "It then optionally applies an\nactivation function to produce the final output."
+          ],
+          "rationale": "It then optionally applies an\nactivation function to produce the final output."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.raw_ops.SelectV2": {
+    "semantics": {
+      "definition": "TODO: add doc.",
+      "syntax_constraint": "",
+      "param": {
+        "condition": {
+          "description": "A `Tensor` of type `bool`.",
+          "values": [
+            "bool"
+          ],
+          "source": "condition: A `Tensor` of type `bool`."
+        },
+        "t": {
+          "description": "A `Tensor`.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "t: A `Tensor`."
+        },
+        "e": {
+          "description": "A `Tensor`. Must have the same type as `t`.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "e: A `Tensor`. Must have the same type as `t`."
+        },
+        "name": {
+          "description": "A name for the operation (optional).",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "name: A name for the operation (optional)."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Return a tensor of the same type as t",
+          "variations": [
+            "A `Tensor`. Has the same type as `t`."
+          ],
+          "rationale": "A `Tensor`. Has the same type as `t`."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.keras.applications.efficientnet_v2.preprocess_input": {
+    "semantics": {
+      "definition": "A placeholder method for backward compatibility.\n\n    The preprocessing logic has been included in the EfficientNetV2 model\n    implementation. Users are no longer required to call this method to\n    normalize the input data. This method does nothing and only kept as a\n    placeholder to align the API surface between old and new version of model.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "A floating point `numpy.array` or a tensor.",
+          "values": [
+            "numpy.array",
+            "tensor"
+          ],
+          "source": "x: A floating point `numpy.array` or a tensor."
+        },
+        "data_format": {
+          "description": "Optional data format of the image tensor/array. Defaults to\n            None, in which case the global setting\n            `keras.backend.image_data_format()` is used\n            (unless you changed it, it defaults to \"channels_last\").",
+          "values": [
+            "None"
+          ],
+          "source": "data_format: Optional data format of the image tensor/array. Defaults to\n            None, in which case the global setting\n            `keras.backend.image_data_format()` is used\n            (unless you changed it, it defaults to \"channels_last\")."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "The method does not perform any processing",
+          "variations": [
+            "This method does nothing and only kept as a placeholder to align the API surface between old and new version of model."
+          ],
+          "rationale": "This method does nothing and only kept as a placeholder to align the API surface between old and new version of model."
+        },
+        {
+          "scenario": "Return data with unchanged input",
+          "variations": [
+            "Returns: Unchanged `numpy.array` or tensor."
+          ],
+          "rationale": "Returns: Unchanged `numpy.array` or tensor."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.queue.PriorityQueue": {
+    "semantics": {
+      "definition": "A queue implementation that dequeues elements in prioritized order.\n\nSee `tf.queue.QueueBase` for a description of the methods on\nthis class.",
+      "syntax_constraint": "Enqueues and Dequeues to the `PriorityQueue` must include an additional tuple entry at the beginning: the `priority`.  The priority must be an int64 scalar (for `enqueue`) or an int64 vector (for `enqueue_many`).\n\nIf the `shapes` argument is specified, each component of a queue element must have the respective fixed shape. If it is unspecified, different queue elements may have different shapes, but the use of `dequeue_many` is disallowed.",
+      "param": {
+        "capacity": {
+          "description": "An integer. The upper bound on the number of elements that may be stored in this queue.",
+          "values": [
+            "integer"
+          ],
+          "source": "capacity: An integer. The upper bound on the number of elements that may be stored in this queue."
+        },
+        "types": {
+          "description": "A list of `DType` objects. The length of `types` must equal the number of tensors in each queue element, except the first priority element.  The first tensor in each element is the priority, which must be type int64.",
+          "values": [
+            "DType"
+          ],
+          "source": "types:  A list of `DType` objects. The length of `types` must equal the number of tensors in each queue element, except the first priority element.  The first tensor in each element is the priority, which must be type int64."
+        },
+        "shapes": {
+          "description": "(Optional.) A list of fully-defined `TensorShape` objects, with the same length as `types`, or `None`.",
+          "values": [
+            "TensorShape"
+          ],
+          "source": "shapes: (Optional.) A list of fully-defined `TensorShape` objects, with the same length as `types`, or `None`."
+        },
+        "names": {
+          "description": "(Optional.) A list of strings naming the components in the queue with the same length as `dtypes`, or `None`.  If specified, the dequeue methods return a dictionary with the names as keys.",
+          "values": [
+            "string"
+          ],
+          "source": "names: (Optional.) A list of strings naming the components in the queue with the same length as `dtypes`, or `None`.  If specified, the dequeue methods return a dictionary with the names as keys."
+        },
+        "shared_name": {
+          "description": "(Optional.) If non-empty, this queue will be shared under the given name across multiple s",
+          "values": [
+            "string"
+          ],
+          "source": "shared_name: (Optional.) If non-empty, this queue will be shared under the given name across multiple s"
+        },
+        "name": {
+          "description": "(Optional.) A list of strings naming the components in the queue with the same length as `dtypes`, or `None`.  If specified, the dequeue methods return a dictionary with the names as keys.",
+          "values": [
+            "string"
+          ],
+          "source": "name='priority_queue'"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "The queue dequeues by priority",
+          "variations": [
+            "A queue implementation that dequeues elements in prioritized order."
+          ],
+          "rationale": "A queue implementation that dequeues elements in prioritized order."
+        },
+        {
+          "scenario": "The queue has a bounded capacity",
+          "variations": [
+            "A `PriorityQueue` has bounded capacity; supports multiple concurrent producers and consumers; and provides exactly-once delivery."
+          ],
+          "rationale": "A `PriorityQueue` has bounded capacity; supports multiple concurrent producers and consumers; and provides exactly-once delivery."
+        },
+        {
+          "scenario": "Each queue element is a tuple of fixed-length tensors",
+          "variations": [
+            "A `PriorityQueue` holds a list of up to `capacity` elements. Each element is a fixed-length tuple of tensors whose dtypes are described by `types`, and whose shapes are optionally described by the `shapes` argument."
+          ],
+          "rationale": "A `PriorityQueue` holds a list of up to `capacity` elements. Each element is a fixed-length tuple of tensors whose dtypes are described by `types`, and whose shapes are optionally described by the `shapes` argument."
+        },
+        {
+          "scenario": "Priority must be of type int64",
+          "variations": [
+            "The first tensor in each element is the priority, which must be type int64."
+          ],
+          "rationale": "The first tensor in each element is the priority, which must be type int64."
+        },
+        {
+          "scenario": "enqueue/enqueue_many requires priority to be an int64 scalar/vector",
+          "variations": [
+            "Enqueues and Dequeues to the `PriorityQueue` must include an additional tuple entry at the beginning: the `priority`.  The priority must be an int64 scalar (for `enqueue`) or an int64 vector (for `enqueue_many`)."
+          ],
+          "rationale": "Enqueues and Dequeues to the `PriorityQueue` must include an additional tuple entry at the beginning: the `priority`.  The priority must be an int64 scalar (for `enqueue`) or an int64 vector (for `enqueue_many`)."
+        },
+        {
+          "scenario": "When specifying shapes, the element shape must be fixed",
+          "variations": [
+            "If the `shapes` argument is specified, each component of a queue element must have the respective fixed shape."
+          ],
+          "rationale": "If the `shapes` argument is specified, each component of a queue element must have the respective fixed shape."
+        },
+        {
+          "scenario": "dequeue_many is not allowed when shapes are not specified",
+          "variations": [
+            "If it is unspecified, different queue elements may have different shapes, but the use of `dequeue_many` is disallowed."
+          ],
+          "rationale": "If it is unspecified, different queue elements may have different shapes, but the use of `dequeue_many` is disallowed."
+        },
+        {
+          "scenario": "When specifying names, dequeue returns a dictionary",
+          "variations": [
+            "If specified, the dequeue methods return a dictionary with the names as keys."
+          ],
+          "rationale": "If specified, the dequeue methods return a dictionary with the names as keys."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.keras.utils.text_dataset_from_directory": {
+    "semantics": {
+      "definition": "Generates a dataset from text files in a directory.\n\nIf your directory structure is:\n\n```\nmain_directory/\n...class_a/\n......a_text_1.txt\n......a_text_2.txt\n...class_b/\n......b_text_1.txt\n......b_text_2.txt\n```\n\nThen calling `text_dataset_from_directory(main_directory,\nlabels='inferred')` will return a dataset that yields batches of\ntexts from the subdirectories `class_a` and `class_b`, together with labels\n0 and 1 (0 corresponding to `class_a` and 1 corresponding to `class_b`).\n\nOnly `.txt` files are supported at this time.\n\nBy default, this function will return a `tf.data.Dataset` object. You can\nset `format=\"grain\"` to return a `grain.IterDataset` object instead, which\nremoves the TensorFlow dependency.",
+      "syntax_constraint": "",
+      "param": {
+        "directory": {
+          "description": "Directory where the data is located.\n            If `labels` is \"inferred\", it should contain\n            subdirectories, each containing text files for a class.\n            Otherwise, the directory structure is ignored.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "directory: Directory where the data is located.\n            If `labels` is \"inferred\", it should contain\n            subdirectories, each containing text files for a class.\n            Otherwise, the directory structure is ignored."
+        },
+        "labels": {
+          "description": "Either \"inferred\"\n            (labels are generated from the directory structure),\n            `None` (no labels),\n            or a list/tuple of integer labels of the same size as the number of\n            text files found in the directory. Labels should be sorted according\n            to the alphanumeric order of the text file paths\n            (obtained via `os.walk(directory)` in Python).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "labels: Either \"inferred\"\n            (labels are generated from the directory structure),\n            `None` (no labels),\n            or a list/tuple of integer labels of the same size as the number of\n            text files found in the directory. Labels should be sorted according\n            to the alphanumeric order of the text file paths\n            (obtained via `os.walk(directory)` in Python)."
+        },
+        "label_mode": {
+          "description": "String describing the encoding of `labels`. Options are:\n            - \"int\": means that the labels are encoded as integers\n                (e.g. for `sparse_categorical_crossentropy` loss).\n            - \"categorical\" means that the labels are\n                encoded as a categorical vector\n                (e.g. for `categorical_crossentropy` loss).\n            - \"binary\" means that the labels (there can be only 2)\n                are encoded as `float32` scalars with values 0 or 1\n                (e.g. for `binary_crossentropy`).\n            - `None` (no labels).",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "label_mode: String describing the encoding of `labels`. Options are:\n            - \"int\": means that the labels are encoded as integers\n                (e.g. for `sparse_categorical_crossentropy` loss).\n            - \"categorical\" means that the labels are\n                encoded as a categorical vector\n                (e.g. for `categorical_crossentropy` loss).\n            - \"binary\" means that the labels (there can be only 2)\n                are encoded as `float32` scalars with values 0 or 1\n                (e.g. for `binary_crossentropy`).\n            - `None` (no labels)."
+        },
+        "class_names": {
+          "description": "Only valid if \"labels\" is \"inferred\".\n            This is t",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "class_names: Only valid if \"labels\" is \"inferred\".\n            This is t"
+        },
+        "batch_size": {
+          "description": "batch_size=32",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "batch_size=32"
+        },
+        "max_length": {
+          "description": "max_length=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "max_length=None"
+        },
+        "shuffle": {
+          "description": "shuffle=True",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "shuffle=True"
+        },
+        "seed": {
+          "description": "seed=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "seed=None"
+        },
+        "validation_split": {
+          "description": "validation_split=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "validation_split=None"
+        },
+        "subset": {
+          "description": "subset=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "subset=None"
+        },
+        "follow_links": {
+          "description": "follow_links=False",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "follow_links=False"
+        },
+        "format": {
+          "description": "format='tf'",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "format='tf'"
+        },
+        "verbose": {
+          "description": "verbose=True",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "verbose=True"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Automatically generate tags according to the directory structure",
+          "variations": [
+            "Then calling `text_dataset_from_directory(main_directory,\nlabels='inferred')` will return a dataset that yields batches of\ntexts from the subdirectories `class_a` and `class_b`, together with labels\n0 and 1 (0 corresponding to `class_a` and 1 corresponding to `class_b`)."
+          ],
+          "rationale": "Then calling `text_dataset_from_directory(main_directory,\nlabels='inferred')` will return a dataset that yields batches of\ntexts from the subdirectories `class_a` and `class_b`, together with labels\n0 and 1 (0 corresponding to `class_a` and 1 corresponding to `class_b`)."
+        },
+        {
+          "scenario": "Supports .txt files only",
+          "variations": [
+            "Only `.txt` files are supported at this time."
+          ],
+          "rationale": "Only `.txt` files are supported at this time."
+        },
+        {
+          "scenario": "Can return tf.data.Dataset or grain.IterDataset",
+          "variations": [
+            "By default, this function will return a `tf.data.Dataset` object. You can\nset `format=\"grain\"` to return a `grain.IterDataset` object instead, which\nremoves the TensorFlow dependency."
+          ],
+          "rationale": "By default, this function will return a `tf.data.Dataset` object. You can\nset `format=\"grain\"` to return a `grain.IterDataset` object instead, which\nremoves the TensorFlow dependency."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.raw_ops.ApplyMomentum": {
+    "semantics": {
+      "definition": "Update '*var' according to the momentum scheme.\n\nSet use_nesterov = True if you want to use Nesterov momentum.\n\naccum = accum * momentum + grad\nvar -= lr * accum",
+      "syntax_constraint": "",
+      "param": {
+        "var": {
+          "description": "A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `int64`, `qint8`, `quint8`, `qint32`, `bfloat16`, `qint16`, `quint16`, `uint16`, `complex128`, `half`, `uint32`, `uint64`.\nShould be from a Variable().",
+          "values": [
+            "Tensor"
+          ],
+          "source": "var: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `int64`, `qint8`, `quint8`, `qint32`, `bfloat16`, `qint16`, `quint16`, `uint16`, `complex128`, `half`, `uint32`, `uint64`.\nShould be from a Variable()."
+        },
+        "accum": {
+          "description": "A mutable `Tensor`. Must have the same type as `var`.\nShould be from a Variable().",
+          "values": [
+            "Tensor"
+          ],
+          "source": "accum: A mutable `Tensor`. Must have the same type as `var`.\nShould be from a Variable()."
+        },
+        "lr": {
+          "description": "A `Tensor`. Must have the same type as `var`.\nScaling factor. Must be a scalar.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "lr: A `Tensor`. Must have the same type as `var`.\nScaling factor. Must be a scalar."
+        },
+        "grad": {
+          "description": "A `Tensor`. Must have the same type as `var`. The gradient.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "grad: A `Tensor`. Must have the same type as `var`. The gradient."
+        },
+        "momentum": {
+          "description": "A `Tensor`. Must have the same type as `var`.\nMomentum. Must be a scalar.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "momentum: A `Tensor`. Must have the same type as `var`.\nMomentum. Must be a scalar."
+        },
+        "use_locking": {
+          "description": "An optional `bool`. Defaults to `False`.\nIf `True`, updating of the var and accum tensors will be protected\nby a lock; otherwise the behavior is undefined, but may exhibit less\ncontention.",
+          "values": [
+            "bool"
+          ],
+          "source": "use_locking: An optional `bool`. Defaults to `False`.\nIf `True`, updating of the var and accum tensors will be protected\nby a lock; otherwise the behavior is undefined, but may exhibit less\ncontention."
+        },
+        "use_nesterov": {
+          "description": "An optional `bool`. Defaults to `False`.\nIf `True`, the tensor passed to compute grad will be\nvar - lr * momentum * accum, so in the end, the var you get is actually\nvar - lr * momentum * accum.",
+          "values": [
+            "bool"
+          ],
+          "source": "use_nesterov: An optional `bool`. Defaults to `False`.\nIf `True`, the tensor passed to compute grad will be\nvar - lr * momentum * accum, so in the end, the var you get is actually\nvar - lr * momentum * accum."
+        },
+        "name": {
+          "description": "A name for the operation (optional).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "name: A name for the operation (optional)."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Update var according to the momentum scheme",
+          "variations": [
+            "accum = accum * momentum + grad\nvar -= lr * accum"
+          ],
+          "rationale": "accum = accum * momentum + grad\nvar -= lr * accum"
+        },
+        {
+          "scenario": "The calculation method when using Nesterov momentum",
+          "variations": [
+            "If `True`, the tensor passed to compute grad will be\nvar - lr * momentum * accum, so in the end, the var you get is actually\nvar - lr * momentum * accum."
+          ],
+          "rationale": "If `True`, the tensor passed to compute grad will be\nvar - lr * momentum * accum, so in the end, the var you get is actually\nvar - lr * momentum * accum."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.keras.callbacks.History": {
+    "semantics": {
+      "definition": "Callback that records events into a `History` object.\n\nThis callback is automatically applied to\nevery Keras model. The `History` object\ngets returned by the `fit()` method of models.",
+      "syntax_constraint": "",
+      "param": {
+        "epoch": {
+          "description": "Integer, index of epoch.",
+          "values": [
+            "Integer"
+          ],
+          "source": "epoch: Integer, index of epoch."
+        },
+        "logs": {
+          "description": "Dict, metric results for this training epoch, and for the\nvalidation epoch if validation is performed. Validation result\nkeys are prefixed with `val_`. For training epoch, the values of\nthe `Model`'s metrics are returned. Example:\n`{'loss': 0.2, 'accuracy': 0.7}`.",
+          "values": [
+            "Dict"
+          ],
+          "source": "logs: Dict, metric results for this training epoch, and for the\nvalidation epoch if validation is performed. Validation result\nkeys are prefixed with `val_`. For training epoch, the values of\nthe `Model`'s metrics are returned. Example:\n`{'loss': 0.2, 'accuracy': 0.7}`."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Record metrics at the end of each training epoch",
+          "variations": [
+            "Called at the end of an epoch.\n\nSubclasses should override for any actions to run. This function should\nonly be called during TRAIN mode.\n\nArgs:\n    epoch: Integer, index of epoch.\n    logs: Dict, metric results for this training epoch, and for the\n      validation epoch if validation is performed. Validation result\n      keys are prefixed with `val_`. For training epoch, the values of\n      the `Model`'s metrics are returned. Example:\n      `{'loss': 0.2, 'accuracy': 0.7}`."
+          ],
+          "rationale": "Called at the end of an epoch.\n\nSubclasses should override for any actions to run. This function should\nonly be called during TRAIN mode.\n\nArgs:\n    epoch: Integer, index of epoch.\n    logs: Dict, metric results for this training epoch, and for the\n      validation epoch if validation is performed. Validation result\n      keys are prefixed with `val_`. For training epoch, the values of\n      the `Model`'s metrics are returned. Example:\n      `{'loss': 0.2, 'accuracy': 0.7}`."
+        },
+        {
+          "scenario": "Called at the beginning of training",
+          "variations": [
+            "Called at the beginning of training.\n\nSubclasses should override for any actions to run.\n\nArgs:\n    logs: Dict. Currently no data is passed to this argument for this\n      method but that may change in the future."
+          ],
+          "rationale": "Called at the beginning of training.\n\nSubclasses should override for any actions to run.\n\nArgs:\n    logs: Dict. Currently no data is passed to this argument for this\n      method but that may change in the future."
+        },
+        {
+          "scenario": "Called at the beginning of each training epoch",
+          "variations": [
+            "Called at the start of an epoch.\n\nSubclasses should override for any actions to run. This function should\nonly be called during TRAIN mode.\n\nArgs:\n    epoch: Integer, index of epoch.\n    logs: Dict. Curre"
+          ],
+          "rationale": "Called at the start of an epoch.\n\nSubclasses should override for any actions to run. This function should\nonly be called during TRAIN mode.\n\nArgs:\n    epoch: Integer, index of epoch.\n    logs: Dict. Curre"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> model = Sequential([layers.Dense(10)])\n>>> model.compile(SGD(), loss='mse')\n>>> history = model.fit(np.arange(100).reshape(5, 20), np.zeros(5),\n...                     epochs=10, verbose=1)\n>>> print(history.params)\n{'verbose': 1, 'epochs': 10, 'steps': 1}\n>>> # check the keys of history object\n>>> print(history.history.keys())\ndict_keys(['loss'])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "tensorflow.experimental.numpy.argmax": {
+    "semantics": {
+      "definition": "TensorFlow variant of NumPy's `argmax`.\n\nUnsupported arguments: `out`, `keepdims`.\n\nSee the NumPy documentation for [`numpy.argmax`](https://numpy.org/doc/stable/reference/generated/numpy.argmax.html).",
+      "syntax_constraint": "Unsupported arguments: `out`, `keepdims`.",
+      "param": {
+        "a": {
+          "description": "",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "argmax(a, axis=None)"
+        },
+        "axis": {
+          "description": "",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "argmax(a, axis=None)"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "TensorFlow variant implementing NumPy's argmax functionality",
+          "variations": [
+            "TensorFlow variant of NumPy's `argmax`."
+          ],
+          "rationale": "TensorFlow variant of NumPy's `argmax`."
+        },
+        {
+          "scenario": "Unsupported parameter",
+          "variations": [
+            "Unsupported arguments: `out`, `keepdims`."
+          ],
+          "rationale": "Unsupported arguments: `out`, `keepdims`."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.linalg.LinearOperator": {
+    "semantics": {
+      "definition": "Base class defining a [batch of] linear operator[s].\n\nSubclasses of `LinearOperator` provide access to common methods on a\n(batch) matrix, without the need to materialize the matrix.  This allows:\n\n* Matrix free computations\n* Operators that take advantage of special structure, while providing a\n  consistent API to users.",
+      "syntax_constraint": "Subclasses should only implement the assert methods\n  (e.g. `assert_non_singular`) if they can be done in less than `O(N^3)`\n  time.",
+      "param": {
+        "dtype": {
+          "description": "dtype (oneflow.dtype, optional): ...",
+          "values": [
+            "oneflow.dtype"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "graph_parents": {
+          "description": "graph_parents=None",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "is_non_singular": {
+          "description": "is_non_singular=None",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "is_self_adjoint": {
+          "description": "is_self_adjoint=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "is_positive_definite": {
+          "description": "is_positive_definite=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "is_square": {
+          "description": "is_square=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "name": {
+          "description": "name=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        },
+        "parameters": {
+          "description": "parameters=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "dtype, graph_parents=None, is_non_singular=None, is_self_adjoint=None, is_positive_definite=None, is_square=None, name=None, parameters=None"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Allow matrix free calculation",
+          "variations": [
+            "Matrix free computations"
+          ],
+          "rationale": "Matrix free computations"
+        },
+        {
+          "scenario": "Use special structures and provide a consistent API",
+          "variations": [
+            "Operators that take advantage of special structure, while providing a\n  consistent API to users."
+          ],
+          "rationale": "Operators that take advantage of special structure, while providing a\n  consistent API to users."
+        },
+        {
+          "scenario": "Subclasses must implement the underscored version of the method",
+          "variations": [
+            "To enable a public method, subclasses should implement the leading-underscore\n  version of the method.  The argument signature should be identical except for\n  the omission of `name=\"...\"`.  For example, to enable\n  `matmul(x, adjoint=False, name=\"matmul\")` a subclass should implement\n  `_matmul(x, adjoint=False)`."
+          ],
+          "rationale": "To enable a public method, subclasses should implement the leading-underscore\n  version of the method.  The argument signature should be identical except for\n  the omission of `name=\"...\"`.  For example, to enable\n  `matmul(x, adjoint=False, name=\"matmul\")` a subclass should implement\n  `_matmul(x, adjoint=False)`."
+        },
+        {
+          "scenario": "The assertion method must be completed in O(N^3) time",
+          "variations": [
+            "Subclasses should only implement the assert methods\n  (e.g. `assert_non_singular`) if they can be done in less than `O(N^3)`\n  time."
+          ],
+          "rationale": "Subclasses should only implement the assert methods\n  (e.g. `assert_non_singular`) if they can be done in less than `O(N^3)`\n  time."
+        },
+        {
+          "scenario": "Class documentation should contain an explanation of computational complexity",
+          "variations": [
+            "Class docstrings should contain an explanation of computational complexity.\n  Since this is a high-performance library, attention should be paid to detail,\n  and explanations can include constants as well as Big-O notation."
+          ],
+          "rationale": "Class docstrings should contain an explanation of computational complexity.\n  Since this is a high-performance library, attention should be paid to detail,\n  and explanations can include constants as well as Big-O notation."
+        },
+        {
+          "scenario": "Define rules for compatible shapes",
+          "variations": [
+            "`LinearOperator` subclasses should operate on a [batch] matrix with\n  compatible shape.  Class docstrings should define what is meant by compatible\n  shape."
+          ],
+          "rationale": "`LinearOperator` subclasses should operate on a [batch] matrix with\n  compatible shape.  Class docstrings should define what is meant by compatible\n  shape."
+        },
+        {
+          "scenario": "The compatible shape requirements for matmul",
+          "variations": [
+            "`x` is a batch matrix with compatible shape for `matmul` if\n\n```\noperator.shape = [B1,...,Bb] + [M, N],  b >= 0,\nx.shape =   [B1,...,Bb] + [N, R]\n```"
+          ],
+          "rationale": "`x` is a batch matrix with compatible shape for `matmul` if\n\n```\noperator.shape = [B1,...,Bb] + [M, N],  b >= 0,\nx.shape =   [B1,...,Bb] + [N, R]\n```"
+        },
+        {
+          "scenario": "solve's compatible shape requirements",
+          "variations": [
+            "`rhs` is a batch matrix with compatible shape for `solve` if\n\n```\noperator.shape = [B1,...,Bb] + [M, N],  b >= 0,\nrhs.shape =   [B1,...,Bb] + [M, R]\n```"
+          ],
+          "rationale": "`rhs` is a batch matrix with compatible shape for `solve` if\n\n```\noperator.shape = [B1,...,Bb] + [M, N],  b >= 0,\nrhs.shape =   [B1,...,Bb] + [M, R]\n```"
+        },
+        {
+          "scenario": "Linear operators do not actually store matrices",
+          "variations": [
+            "Subclasses of `LinearOperator` provide access to common methods on a\n(batch) matrix, without the need to materialize the matrix."
+          ],
+          "rationale": "Subclasses of `LinearOperator` provide access to common methods on a\n(batch) matrix, without the need to materialize the matrix."
+        }
+      ],
+      "example": []
+    }
+  },
+  "tensorflow.raw_ops.ScatterAdd": {
+    "semantics": {
+      "definition": "Adds sparse updates to a variable reference.\n\nThis operation computes\n\n    # Scalar indices\n    ref[indices, ...] += updates[...]\n\n    # Vector indices (for each i)\n    ref[indices[i], ...] += updates[i, ...]\n\n    # High rank indices (for each i, ..., j)\n    ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]\n\nThis operation outputs `ref` after the update is done.\nThis makes it easier to chain operations that need to use the reset value.\n\nDuplicate entries are handled correctly: if multiple `indices` reference\nthe same location, their contributions add.",
+      "syntax_constraint": "Requires `updates.shape = indices.shape + ref.shape[1:]` or `updates.shape = []`.",
+      "param": {
+        "ref": {
+          "description": "A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `int64`, `qint8`, `quint8`, `qint32`, `bfloat16`, `qint16`, `quint16`, `uint16`, `complex128`, `half`, `uint32`, `uint64`.\nShould be from a `Variable` node.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `int64`, `qint8`, `quint8`, `qint32`, `bfloat16`, `qint16`, `quint16`, `uint16`, `complex128`, `half`, `uint32`, `uint64`.\nShould be from a `Variable` node."
+        },
+        "indices": {
+          "description": "A `Tensor`. Must be one of the following types: `int32`, `int64`.\nA tensor of indices into the first dimension of `ref`.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "indices: A `Tensor`. Must be one of the following types: `int32`, `int64`.\nA tensor of indices into the first dimension of `ref`."
+        },
+        "updates": {
+          "description": "A `Tensor`. Must have the same type as `ref`.\nA tensor of updated values to add to `ref`.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "updates: A `Tensor`. Must have the same type as `ref`.\nA tensor of updated values to add to `ref`."
+        },
+        "use_locking": {
+          "description": "An optional `bool`. Defaults to `False`.\nIf True, the addition will be protected by a lock;\notherwise the behavior is undefined, but may exhibit less contention.",
+          "values": [
+            "bool"
+          ],
+          "source": "use_locking: An optional `bool`. Defaults to `False`.\nIf True, the addition will be protected by a lock;\notherwise the behavior is undefined, but may exhibit less contention."
+        },
+        "name": {
+          "description": "A name for the operation (optional).",
+          "values": [
+            "str"
+          ],
+          "source": "name: A name for the operation (optional)."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Sparse update variable reference",
+          "variations": [
+            "Adds sparse updates to a variable reference."
+          ],
+          "rationale": "Adds sparse updates to a variable reference."
+        },
+        {
+          "scenario": "Scalar index update",
+          "variations": [
+            "# Scalar indices\nref[indices, ...] += updates[...]"
+          ],
+          "rationale": "# Scalar indices\nref[indices, ...] += updates[...]"
+        },
+        {
+          "scenario": "Vector index update",
+          "variations": [
+            "# Vector indices (for each i)\nref[indices[i], ...] += updates[i, ...]"
+          ],
+          "rationale": "# Vector indices (for each i)\nref[indices[i], ...] += updates[i, ...]"
+        },
+        {
+          "scenario": "High-dimensional index update",
+          "variations": [
+            "# High rank indices (for each i, ..., j)\nref[indices[i, ..., j], ...] += updates[i, ..., j, ...]"
+          ],
+          "rationale": "# High rank indices (for each i, ..., j)\nref[indices[i, ..., j], ...] += updates[i, ..., j, ...]"
+        },
+        {
+          "scenario": "Return the updated variables",
+          "variations": [
+            "This operation outputs `ref` after the update is done."
+          ],
+          "rationale": "This operation outputs `ref` after the update is done."
+        },
+        {
+          "scenario": "Supports repeated index accumulation",
+          "variations": [
+            "Duplicate entries are handled correctly: if multiple `indices` reference\nthe same location, their contributions add."
+          ],
+          "rationale": "Duplicate entries are handled correctly: if multiple `indices` reference\nthe same location, their contributions add."
+        },
+        {
+          "scenario": "The output type is the same as the input type",
+          "variations": [
+            "Returns:\n  A mutable `Tensor`. Has the same type as `ref`."
+          ],
+          "rationale": "Returns:\n  A mutable `Tensor`. Has the same type as `ref`."
+        }
+      ],
+      "example": []
+    }
+  }
+}

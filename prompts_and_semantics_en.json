@@ -1,0 +1,192 @@
+{
+  "semantic_extraction": {
+    "file": "main/step2_partition.py",
+    "model": "qwen3-next-80b-a3b-instruct (qwen_80b)",
+    "system_prompt_en": "You are a precise document structure extractor. Fill API document content into a fixed JSON template. Only fill what the document explicitly states.",
+    "system_prompt_zh": "You are a precise document structure extractor. Fill the API documentation content into a fixed JSON template. Only fill in content explicitly written in the document.",
+    "user_prompt_template": "Please fill the content of the following API documentation into a fixed JSON template. Strictly use the original text from the documentation.\n\n## API documentation\n{api_doc}\n\n---\n\n### 1. definition (string)\n- Fill in the core functionality description of the API\n- Directly insert the original documentation text, preserving line breaks\n- If not explicitly stated, fill with \"Document does not explicitly state\"\n\n### 2. syntax_constraint (string)\n\nFill in the **hard constraints** from the documentation (violations will inevitably cause errors).\n\n**The following are hard constraints (to extract):**\n- Mutual exclusion rules: \"X and Y are mutually exclusive\"\n- Exception conditions: \"Throws RuntimeError if X\"\n- Usage restrictions: \"Works only for CPU tensors\", \"Only available in dygraph mode\"\n- Required preconditions: \"input must be a 2D tensor\"\n- Constraint-related content in Note/Warning\n\n**The following are NOT hard constraints (do NOT extract):**\n- Parameter value ranges: \"dim within [-N-1, N+1)\" → belongs to param\n- Parameter default behavior: \"If keepdim is True, then...\" → belongs to functionality\n- General functional descriptions: \"Returns a tensor...\" → belongs to definition\n\n**Better to miss than to misextract. If uncertain, leave empty.**\nIf the documentation has no hard constraints, fill with empty string \"\"\n\n### 3. param (object)\n- Iterate over each parameter listed in the documentation\n- **Key**: The \"values\" field should contain only the **parameter type name** as marked in the documentation (e.g., oneflow.dtype, bool, array_like), as a single-element array\n- **Absolutely do NOT** enumerate specific values of the type (e.g., do not split oneflow.dtype into float32/int64)\n- If the type is not marked in the documentation, fill with [\"Unmarked type\"]\n\nFormat: {{ \"parameter_name\": {{ \"description\": \"Original parameter description\", \"values\": [\"Document-specified type\"], \"source\": \"Original documentation\" }} }}\n\nExamples:\n- Documentation says dtype (oneflow.dtype, optional): ... → values: [\"oneflow.dtype\"]\n- Documentation says requires_grad (bool, optional): ... → values: [\"bool\"]\n- Documentation says data (array_like): ... → values: [\"array_like\"]\n- Parameter has no type annotation → values: [\"Unmarked type\"]\n\n### 4. functionality (array)\n- Extract each description of the API's behavior from the documentation\n- scenario: Brief Chinese summary of the behavior\n- variations: The exact sentence from the documentation describing this behavior (single-element array)\n- rationale: \"Behavior explicitly described in the document\"\n\nExtract all five of the following types: functional descriptions (\"Returns X\"), equivalence relationships (\"X is equivalent to Y\"), conditional branches (\"If A then B\"), constraint exceptions (\"Throws RuntimeError\"), behavior guarantees (\"shares memory\")\n\n### 5. example (array)\n- Extract each code example from the documentation\n- code: Original code (copy exactly, including >>> prompts)\n- source: \"Original documentation\"\n- If the documentation has no examples, output an empty array []\n\n---\n\nOutput JSON (do not wrap in markdown):\n{{\"definition\":\"...\",\"syntax_constraint\":\"...\",\"param\":{{...}},\"functionality\":[...],\"example\":[...]}}",
+    "json_output_schema": {
+      "definition": {
+        "type": "string",
+        "description": "API core function description, verbatim from doc"
+      },
+      "syntax_constraint": {
+        "type": "string",
+        "description": "Hard constraints only (violation causes errors). Excludes parameter ranges, default behaviors, functional descriptions."
+      },
+      "param": {
+        "type": "object",
+        "description": "Parameter name → {description, values: [type_name], source}. values contain ONLY the documented type name, never enumerated subtypes."
+      },
+      "functionality": {
+        "type": "array",
+        "description": "Documented behavioral rules. Each: {scenario, variations: [original_text], rationale}."
+      },
+      "example": {
+        "type": "array",
+        "description": "Code examples from doc. Each: {code, source}."
+      }
+    }
+  },
+  "semantic_value_space": {
+    "definition": {
+      "typical_values": [
+        "Returns True if the input is a single element tensor which is not equal to zero after type conversions.",
+        "Converts data into a tensor, sharing data and preserving autograd history if possible.",
+        "Computes the eigenvalues of a complex Hermitian or real symmetric matrix."
+      ],
+      "cardinality": "1 per API (non-partitionable)"
+    },
+    "syntax_constraint": {
+      "typical_values": [
+        "Throws a RuntimeError if input.shape.numel() != 1",
+        "The Keyword Argument device is mutually exclusive with placement and sbp.",
+        "Works only for CPU tensors.",
+        ""
+      ],
+      "cardinality": "0-1 per API (non-partitionable, often empty)"
+    },
+    "param": {
+      "typical_values": {
+        "dtype": [
+          "oneflow.dtype",
+          "torch.dtype",
+          "bool"
+        ],
+        "device": [
+          "oneflow.device",
+          "torch.device"
+        ],
+        "input": [
+          "Tensor",
+          "array_like"
+        ],
+        "dim": [
+          "int",
+          "int or tuple of ints"
+        ],
+        "keepdim": [
+          "bool"
+        ],
+        "requires_grad": [
+          "bool"
+        ],
+        "pin_memory": [
+          "bool"
+        ],
+        "data": [
+          "array_like"
+        ],
+        "obj": [
+          "Object"
+        ],
+        "ndarray": [
+          "array_like"
+        ]
+      },
+      "cardinality": "N per API, each param has 1 value (the type name); partitionable"
+    },
+    "functionality": {
+      "typical_scenarios": [
+        "Returns a new tensor with a dimension of size one inserted at the specified position",
+        "The returned tensor shares the same underlying data with this tensor",
+        "If data is already a tensor with the requested dtype and device then data itself is returned",
+        "zeros_like is equivalent to zeros(input.shape, dtype=input.dtype)",
+        "When inputs are on a CUDA device, this function synchronizes that device with the CPU"
+      ],
+      "cardinality": "0-N per API (partitionable)"
+    },
+    "example": {
+      "typical_values": [
+        "import oneflow as flow\nx = flow.tensor([1, 2, 3])\nflow.is_tensor(x)",
+        "import oneflow as flow\nimport numpy as np\na = np.array([1, 2, 3])\nt = flow.as_tensor(a, device=flow.device('cuda'))"
+      ],
+      "cardinality": "0-N per API (non-partitionable, verbatim from doc)"
+    }
+  },
+  "init_code_generation": {
+    "file": "main/step2_partition.py",
+    "model": "qwen3-coder-next (qwen_coder_a)",
+    "system_prompt_zh": "You are a DL library test code generation expert, strictly generating concise and runnable code in three steps.",
+    "system_prompt_en": "You are a DL library test code generation expert. Generate concise runnable code following a strict three-step structure.",
+    "user_prompt_template": "Generate initial test code for API {api_name}, strictly following the three-step structure:\n1. import DL library\n2. generate input data\n3. call {api_name}\nOutput only the code, no comments or explanations, the code must explicitly contain the following complete semantics:\n{semantic_info}"
+  },
+  "code_repair": {
+    "file": "main/step2_partition.py",
+    "model": "qwen3-coder-next (qwen_coder_b)",
+    "system_prompt_zh": "You are a code repair expert. Only output the repaired pure Python code.",
+    "system_prompt_en": "You are a code repair expert. Output only the repaired pure Python code.",
+    "user_prompt_template": "Fix code errors. Output only the fixed full code, no comments.\nAPI: {api_name}\nSemantic: {semantic_info}\nError: {error}\nCode:\n{code}\nFixed code:"
+  },
+  "test_code_generation": {
+    "file": "main/step3_fuzz.py",
+    "model": "qwen3-coder-next (qwen_coder_a)",
+    "format": "new format with context/param_choices or old flat dict",
+    "prompt_structure": [
+      "## API functionality (definition)",
+      "## Constraint (syntax_constraint)",
+      "## Parameter Selection (param_choices as JSON)",
+      "## Test Scenario (active_scenario)",
+      "## Reference code template (init_code)",
+      "## Reference Example (example_ref)",
+      "## Requirements (import_stmt, code-only, runnable)"
+    ]
+  },
+  "seed_no_semantics": {
+    "file": "evaluate/seed_eval.py",
+    "model": "qwen3-coder-next",
+    "prompt_template": "Generate test code that calls {api_name}.\nOutput only executable Python code, with no comments or explanations.\nCode structure: import libraries → prepare input data → call {api_name}.\n{import_stmt}"
+  },
+  "hallucination_classification": {
+    "file": "evaluate/hu/run.py",
+    "model": "qwen3-coder-next",
+    "categories": {
+      "无效的API假设": "Code uses parameters/attributes/paths that don't exist in the API",
+      "语义不匹配": "Code logic doesn't match the API definition requirements",
+      "版本漂移": "API has been deprecated/renamed/removed",
+      "提示不合规": "Violates generation requirements (wrong import, target API not called)",
+      "约束不存在": "Semantic constraint itself is incorrect",
+      "其他(非幻觉)": "Runtime error but not LLM hallucination (timeout, numerical error, env issue)"
+    }
+  },
+  "gt_extraction": {
+    "file": "main/semantic/gt_extractor.py",
+    "model": "qwen3-next-80b-a3b-instruct",
+    "system_prompt_zh": "You are a precise document structure extractor. Your task is to fill the content of API documentation into a fixed JSON template.\n\nCore principles:\n1. Only fill in content explicitly written in the document, do not make any inferences or extensions\n2. All text fields use the original text from the document, do not rewrite\n3. Leave empty (empty string/empty array/empty object) for content not present in the document\n4. param.values should only contain the parameter types explicitly marked in the document, do not enumerate specific values\n5. functionality should only contain behavior rules explicitly described in the document, do not infer test scenarios",
+    "user_prompt_template": "Please fill the content of the following API documentation into the fixed JSON template. **Strictly use the original document text, do not infer.**\n\n## API documentation\n{help_msg}\n\n---\n\n## JSON template and filling rules\n\n### 1. definition (string)\n- Fill in the core function description of the API\n- Directly insert the original document text, preserving line breaks\n- If not explicitly stated, fill with `\"Document does not explicitly state\"`\n\n### 2. syntax_constraint (string)\n\nFill in the **hard constraints** from the document (violations will inevitably cause errors).\n\n**The following are hard constraints (to extract):**\n- Mutual exclusion rules: \"X and Y are mutually exclusive\"\n- Exception conditions: \"Throws RuntimeError if X\"\n- Usage restrictions: \"Works only for CPU tensors\", \"Only available in dygraph mode\"\n- Required preconditions: \"input must be a 2D tensor\"\n- Constraint-related content in Note/Warning\n\n**The following are NOT hard constraints (do NOT extract):**\n- ❌ Parameter value ranges: \"dim within [-N-1, N+1)\" → belongs to param\n- ❌ Parameter default behavior: \"Default: if None, uses the current device\" → belongs to param's description\n- ❌ General function descriptions: \"Returns a tensor...\" → belongs to definition\n\n**Better to miss than to misextract. If uncertain, leave empty.**\n\nIf the document has no hard constraints, fill with empty string `\"\"`\n\n### 3. param (object)\n- Iterate over each parameter listed in the document\n- **Key**: The `values` field should contain only the **parameter type name** as marked in the document (e.g., `oneflow.dtype`, `bool`, `array_like`), as a single-element array\n- **Absolutely do not** enumerate specific values of the type (e.g., do not split `oneflow.dtype` into float32/int64)\n- If the document does not specify a type, fill with `[\"Unspecified type\"]`\n\nFor each parameter, output:\n{{\n  \"Parameter name\": {{\n    \"description\": \"Document description of this parameter (verbatim)\",\n    \"values\": [\"Parameter type as marked in document\"],\n    \"source\": \"Original document snippet containing the parameter definition\"\n  }}\n}}\n\nExample:\n- Document says `dtype (oneflow.dtype, optional): ...` → values: [\"oneflow.dtype\"]\n- Document says `requires_grad (bool, optional): ...` → values: [\"bool\"]\n- Document says `data (array_like): ...` → values: [\"array_like\"]\n- Parameter has no type annotation → values: [\"Unspecified type\"]\n\n### 4. functionality (array)\n- Extract each description of the API's **core behavior** from the document\n- Document describes what the API does → one functionality entry\n- scenario: Brief Chinese summary of the behavior\n- variations: Original document text (single-element array)\n- rationale: \"Behavior explicitly described in the document\"\n\n**The following four types must be extracted:**\n1. Function descriptions: \"Returns X\", \"Constructs Y\", \"Computes Z\"\n2. Equivalence relationships: \"X is equivalent to Y\", \"Same as Z\", \"Analogous to numpy.xxx\"\n3. Constraint/exception conditions: \"Throws RuntimeError if X\", \"X and Y are mutually exclusive\"\n4. Behavior guarantees/side effects: \"shares memory with input\", \"modifications reflected in both\"\n\nExample:\n- \"zeros_like(input) is equivalent to zeros(input.shape, dtype=input.dtype)\" → extract\n- \"If data is already a tensor with same dtype and device, returns itself\" → extract (this is independent behavior logic beyond parameters)\n- \"The returned tensor and ndarray share the same memory\" → extract\n- \"Returns a tensor filled with scalar value 0\" → extract\n\n**The following must NOT be included in functionality:**\n- ❌ Parameter default value descriptions: \"Default: if None, uses the current device\" → belongs to param.description\n- ❌ Parameter default value descriptions: \"Default: if None, the returned tensor is local one\" → belongs to param.description\n- ❌ Parameter default value descriptions: \"Default: False\", \"Default: 0\", \"Default: 10.0\" → belongs to param.description\n- ❌ Parameter default value descriptions: \"If not specified, defaults to...\" → belongs to param.description\n- ❌ Pure formatting/layout instructions\n\n**Criterion: If a description's subject is a parameter (e.g., device, dtype, placement) and describes the default behavior when the parameter is not provided, it belongs to param, not functionality.**\n\n**If no behavior description exists, output empty array `[]`**\n\n### 5. example (array)\n- Extract **executable Python code examples** from the document\n- code: Original code (copy verbatim, including >>> prompts)\n- source: \"Original document text\"\n- If the document has no examples, output empty array `[]`\n\n**Criteria for true code examples:**\n- ✅ Python code containing `>>> ` interactive prompts\n- ✅ Code blocks containing Python keywords such as `import`, `from`, `def`\n- ✅ Code blocks containing actual API calls (e.g., `flow.xxx()`, `torch.xxx()`)\n\n**The following are NOT code examples and must NOT be extracted:**\n- ❌ Tensor shape pseudocode: `operator.shape = [B1,...,Bb] + [M, N]`\n- ❌ Mathematical formulas/notations\n- ❌ Type annotations in parameter documentation\n- ❌ Inline code snippets within plain text descriptions\n\n---\n\n## Final output\n\nStrictly output JSON (do not wrap in markdown code blocks):\n{{\n  \"definition\": \"Original API function definition from document\",\n  \"syntax_constraint\": \"Original constraint text (separated by newlines), empty if none\",\n  \"param\": {{\n    \"Parameter name\": {{\n      \"description\": \"Original parameter description\",\n      \"values\": [\"Parameter type as marked in document\"],\n      \"source\": \"Original document snippet containing parameter definition\"\n    }}\n  }},\n  \"functionality\": [\n    {{\n      \"scenario\": \"Brief description of behavior rule\",\n      \"variations\": [\"Specific content of rule\"],\n      \"rationale\": \"Behavior rule explicitly described in document\"\n    }}\n  ],\n  \"example\": [\n    {{\n      \"code\": \"Original code\",\n      \"source\": \"Original document text\"\n    }}\n  ]\n}}\n\n## Final confirmation\n- [ ] definition is verbatim from document, unaltered\n- [ ] Each syntax_constraint is an exact original sentence from the document\n- [ ] param.values contain only type names, no enumerated values\n- [ ] functionality contains only behavior rules explicitly described in the document\n- [ ] example code is copied verbatim from the document"
+  },
+  "pipeline_config": {
+    "models": {
+      "qwen_80b": {
+        "model": "qwen3-next-80b-a3b-instruct",
+        "base_url": "http://192.168.131.35:30000/v1",
+        "timeout": 60,
+        "max_tokens": 2048
+      },
+      "qwen_coder_a": {
+        "model": "qwen3-coder-next",
+        "base_url": "http://192.168.131.35:30000/v1",
+        "timeout": 60,
+        "max_tokens": 2048
+      },
+      "qwen_coder_b": {
+        "model": "qwen3-coder-next",
+        "base_url": "http://192.168.131.35:30000/v1",
+        "timeout": 60,
+        "max_tokens": 2048
+      }
+    },
+    "step_assignment": {
+      "semantic_extraction": "qwen_80b",
+      "initial_code_gen": "qwen_coder_a",
+      "code_repair": "qwen_coder_b",
+      "test_code_gen": "qwen_coder_a",
+      "hallucination_verify": "qwen_coder_a"
+    },
+    "pricing_reference": {
+      "input_per_1M_tokens": 2.5,
+      "output_per_1M_tokens": 10.0,
+      "standard": "OpenAI GPT-4o"
+    }
+  }
+}

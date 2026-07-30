@@ -1,0 +1,418 @@
+{
+  "paddle.amp.is_bfloat16_supported": {
+    "semantics": {
+      "definition": "Determine whether the place supports bfloat16 in the auto-mixed-precision training.",
+      "syntax_constraint": "",
+      "param": {
+        "device": {
+          "description": "Specify the running device.\n            It can be ``cpu``, ``gpu``, ``xpu``, ``gpu:x`` and ``xpu:x`\",\n            where ``x`` is the index of the GPUs or XPUs. if device is None, the device is the current device. Default: None.",
+          "values": [
+            "str"
+          ],
+          "source": "device (str|None, optional): Specify the running device.\n            It can be ``cpu``, ``gpu``, ``xpu``, ``gpu:x`` and ``xpu:x`\",\n            where ``x`` is the index of the GPUs or XPUs. if device is None, the device is the current device. Default: None."
+        }
+      },
+      "functionality": [],
+      "example": [
+        {
+          "code": ">>> import paddle\n>>> paddle.amp.is_bfloat16_supported() # True or False\nTrue",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.as_complex": {
+    "semantics": {
+      "definition": "Transform a real tensor to a complex tensor.\n\nThe data type of the input tensor is 'float32' or 'float64', and the data\ntype of the returned tensor is 'complex64' or 'complex128', respectively.\n\nThe shape of the input tensor is ``(* ,2)``, (``*`` means arbitary shape), i.e.\nthe size of the last axis shoule be 2, which represent the real and imag part\nof a complex number. The shape of the returned tensor is ``(*,)``.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "The input tensor. Data type is 'float32' or 'float64'.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "x (Tensor): The input tensor. Data type is 'float32' or 'float64'."
+        },
+        "name": {
+          "description": "Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`.",
+          "values": [
+            "str"
+          ],
+          "source": "name (str, optional): Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "The input tensor is converted to a complex tensor",
+          "variations": [
+            "The data type of the input tensor is 'float32' or 'float64', and the data type of the returned tensor is 'complex64' or 'complex128', respectively."
+          ],
+          "rationale": "The data type of the input tensor is 'float32' or 'float64', and the data type of the returned tensor is 'complex64' or 'complex128', respectively."
+        },
+        {
+          "scenario": "The input tensor shape requires the size of the last axis to be 2",
+          "variations": [
+            "The shape of the input tensor is ``(* ,2)``, (``*`` means arbitary shape), i.e. the size of the last axis shoule be 2, which represent the real and imag part of a complex number."
+          ],
+          "rationale": "The shape of the input tensor is ``(* ,2)``, (``*`` means arbitary shape), i.e. the size of the last axis shoule be 2, which represent the real and imag part of a complex number."
+        },
+        {
+          "scenario": "The output tensor shape is the input with the last axis removed",
+          "variations": [
+            "The shape of the returned tensor is ``(*,)``."
+          ],
+          "rationale": "The shape of the returned tensor is ``(*,)``."
+        },
+        {
+          "scenario": "The output data type matches the input precision.",
+          "variations": [
+            "The output. Data type is 'complex64' or 'complex128', with the same precision as the input."
+          ],
+          "rationale": "The output. Data type is 'complex64' or 'complex128', with the same precision as the input."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import paddle\n>>> x = paddle.arange(12, dtype=paddle.float32).reshape([2, 3, 2])\n>>> y = paddle.as_complex(x)\n>>> print(y)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.Tensor.scale_": {
+    "semantics": {
+      "definition": "Inplace version of ``scale`` API, the output Tensor will be inplaced with input ``x``.\nPlease refer to :ref:`api_paddle_scale`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "x"
+        },
+        "scale": {
+          "description": "",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "scale=1.0"
+        },
+        "bias": {
+          "description": "",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "bias=0.0"
+        },
+        "bias_after_scale": {
+          "description": "",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "bias_after_scale=True"
+        },
+        "act": {
+          "description": "",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "act=None"
+        },
+        "name": {
+          "description": "",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "name=None"
+        }
+      },
+      "functionality": [],
+      "example": []
+    }
+  },
+  "paddle.audio.functional.fft_frequencies": {
+    "semantics": {
+      "definition": "Compute fourier frequencies.",
+      "syntax_constraint": "",
+      "param": {
+        "sr": {
+          "description": "Sample rate.",
+          "values": [
+            "int"
+          ],
+          "source": "sr (int): Sample rate."
+        },
+        "n_fft": {
+          "description": "Number of fft bins.",
+          "values": [
+            "int"
+          ],
+          "source": "n_fft (int): Number of fft bins."
+        },
+        "dtype": {
+          "description": "The data type of the return frequencies. Defaults to 'float32'.",
+          "values": [
+            "str"
+          ],
+          "source": "dtype (str, optional): The data type of the return frequencies. Defaults to 'float32'."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Calculate FFT frequency",
+          "variations": [
+            "Compute fourier frequencies."
+          ],
+          "rationale": "Compute fourier frequencies."
+        },
+        {
+          "scenario": "Return the shape of the frequency tensor",
+          "variations": [
+            "Returns: Tensor: FFT frequencies in Hz with shape `(n_fft//2 + 1,)`."
+          ],
+          "rationale": "Returns: Tensor: FFT frequencies in Hz with shape `(n_fft//2 + 1,)`."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import paddle\n\n>>> sr = 16000\n>>> n_fft = 128\n>>> fft_freq = paddle.audio.functional.fft_frequencies(sr, n_fft)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.Tensor.floor_": {
+    "semantics": {
+      "definition": "Inplace version of ``floor`` API, the output Tensor will be inplaced with input ``x``.\nPlease refer to :ref:`api_paddle_floor`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "Inplace version of ``floor`` API, the output Tensor will be inplaced with input ``x``.",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "x"
+        },
+        "name": {
+          "description": "name=None",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "name=None"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Modify the input tensor in-place",
+          "variations": [
+            "Inplace version of ``floor`` API, the output Tensor will be inplaced with input ``x``."
+          ],
+          "rationale": "Inplace version of ``floor`` API, the output Tensor will be inplaced with input ``x``."
+        }
+      ],
+      "example": []
+    }
+  },
+  "paddle.Tensor.to_sparse_coo": {
+    "semantics": {
+      "definition": "Convert the current DenseTensor to SparseTensor in COO format.",
+      "syntax_constraint": "**This API is ONLY available in Dygraph mode**",
+      "param": {
+        "sparse_dim": {
+          "description": "None",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "sparse_dim"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Convert a dense tensor to a sparse tensor in COO format",
+          "variations": [
+            "Convert the current DenseTensor to SparseTensor in COO format."
+          ],
+          "rationale": "Convert the current DenseTensor to SparseTensor in COO format."
+        },
+        {
+          "scenario": "Return SparseCooTensor",
+          "variations": [
+            "Returns: Tensor: A SparseCooTensor"
+          ],
+          "rationale": "Returns: Tensor: A SparseCooTensor"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import paddle\n>>> dense_x = [[0, 1, 0, 2], [0, 0, 3, 4]]\n>>> dense_x = paddle.to_tensor(dense_x, dtype='float32')\n>>> sparse_x = dense_x.to_sparse_coo(sparse_dim=2)\n>>> print(sparse_x)\nTensor(shape=[2, 4], dtype=paddle.float32, place=Place(cpu), stop_gradient=True,\n       indices=[[0, 0, 1, 1],\n                [1, 3, 2, 3]],\n       values=[1., 2., 3., 4.])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.amin": {
+    "semantics": {
+      "definition": "Computes the minimum of tensor elements over the given axis",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "A tensor, the data type is float32, float64, int32, int64,\n            the dimension is no more than 4.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "x (Tensor): A tensor, the data type is float32, float64, int32, int64,\n            the dimension is no more than 4."
+        },
+        "axis": {
+          "description": "The axis along which the minimum is computed.\n            If :attr:`None`, compute the minimum over all elements of\n            `x` and return a Tensor with a single element,\n            otherwise must be in the range :math:`[-x.ndim, x.ndim)`. \n            If :math:`axis[i] < 0`, the axis to reduce is :math:`x.ndim + axis[i]`.",
+          "values": [
+            "int|list|tuple"
+          ],
+          "source": "axis (int|list|tuple, optional): The axis along which the minimum is computed.\n            If :attr:`None`, compute the minimum over all elements of\n            `x` and return a Tensor with a single element,\n            otherwise must be in the range :math:`[-x.ndim, x.ndim)`. \n            If :math:`axis[i] < 0`, the axis to reduce is :math:`x.ndim + axis[i]`."
+        },
+        "keepdim": {
+          "description": "Whether to reserve the reduced dimension in the\n            output Tensor. The result tensor will have one fewer dimension\n            than the `x` unless :attr:`keepdim` is true, default\n            value is False.",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool, optional): Whether to reserve the reduced dimension in the\n            output Tensor. The result tensor will have one fewer dimension\n            than the `x` unless :attr:`keepdim` is true, default\n            value is False."
+        },
+        "name": {
+          "description": "Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`.",
+          "values": [
+            "str"
+          ],
+          "source": "name (str, optional): Name for the operation (optional, default is None). For more information, please refer to :ref:`api_guide_Name`."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "amin evenly distributes gradients when there are multiple minima",
+          "variations": [
+            "Note:\n        The difference between min and amin is: If there are multiple minimum elements,\n        amin evenly distributes gradient between these equal values,\n        while min propagates gradient to all of them."
+          ],
+          "rationale": "Note:\n        The difference between min and amin is: If there are multiple minimum elements,\n        amin evenly distributes gradient between these equal values,\n        while min propagates gradient to all of them."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import paddle\n>>> # data_x is a Tensor with shape [2, 4] with multiple minimum elements\n>>> # the axis is a int element\n\n>>> x = paddle.to_tensor([[0.2, 0.1, 0.1, 0.1],\n...                         [0.1, 0.1, 0.6, 0.7]],\n...                         dtype='float64', stop_gradient=False)\n>>> # There are 5 minimum elements:\n>>> # 1) amin evenly distributes gradient between these equal values,\n>>> #    thus the corresponding gradients are 1/5=0.2;\n>>> # 2) while min propagates gradient to all of them,\n>>> #    thus the corresponding gradient are 1.\n>>> result1 = paddle.amin(x)\n>>> result1.backward()\n>>> result1\nTensor(shape=[], dtype=float64, place=Place(cpu), stop_gradient=False,\n0.10000000)\n>>> x.grad\nTensor(shape=[2, 4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0.        , 0.20000000, 0.20000000, 0.20000000],\n [0.20000000, 0.20000000, 0.        , 0.        ]])\n\n>>> x.clear_grad()\n>>> result1_min = paddle.min(x)\n>>> result1_min.backward()\n>>> result1_min\nTensor(shape=[], dtype=float64, place=Place(cpu), stop_gradient=False,\n0.10000000)\n>>> x.grad\nTensor(shape=[2, 4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0., 1., 1., 1.],\n [1., 1., 0., 0.]])\n\n>>> x.clear_grad()\n>>> result2 = paddle.amin(x, axis=0)\n>>> result2.backward()\n>>> result2\nTensor(shape=[4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[0.10000000, 0.10000000, 0.10000000, 0.10000000])\n>>> x.grad\nTensor(shape=[2, 4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0.        , 0.50000000, 1.        , 1.        ],\n [1.        , 0.50000000, 0.        , 0.        ]])\n\n>>> x.clear_grad()\n>>> result3 = paddle.amin(x, axis=-1)\n>>> result3.backward()\n>>> result3\nTensor(shape=[2], dtype=float64, place=Place(cpu), stop_gradient=False,\n[0.10000000, 0.10000000])\n>>> x.grad\nTensor(shape=[2, 4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0.        , 0.33333333, 0.33333333, 0.33333333],\n [0.50000000, 0.50000000, 0.        , 0.        ]])\n\n>>> x.clear_grad()\n>>> result4 = paddle.amin(x, axis=1, keepdim=True)\n>>> result4.backward()\n>>> result4\nTensor(shape=[2, 1], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0.10000000],\n [0.10000000]])\n>>> x.grad\nTensor(shape=[2, 4], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[0.        , 0.33333333, 0.33333333, 0.33333333],\n [0.50000000, 0.50000000, 0.        , 0.        ]])\n\n>>> # data_y is a Tensor with shape [2, 2, 2]\n>>> # the axis is list\n>>> y = paddle.to_tensor([[[0.2, 0.1], [0.1, 0.1]],\n...                       [[0.1, 0.1], [0.6, 0.7]]],\n...                       dtype='float64', stop_gradient=False)\n>>> result5 = paddle.amin(y, axis=[1, 2])\n>>> result5.backward()\n>>> result5\nTensor(shape=[2], dtype=float64, place=Place(cpu), stop_gradient=False,\n[0.10000000, 0.10000000])\n>>> y.grad\nTensor(shape=[2, 2, 2], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[[0.        , 0.33333333],\n  [0.33333333, 0.33333333]],\n [[0.50000000, 0.50000000],\n  [0.        , 0.        ]]])\n\n>>> y.clear_grad()\n>>> result6 = paddle.amin(y, axis=[0, 1])\n>>> result6.backward()\n>>> result6\nTensor(shape=[2], dtype=float64, place=Place(cpu), stop_gradient=False,\n[0.10000000, 0.10000000])\n>>> y.grad\nTensor(shape=[2, 2, 2], dtype=float64, place=Place(cpu), stop_gradient=False,\n[[[0.        , 0.33333333],\n  [0.50000000, 0.33333333]],\n [[0.50000000, 0.33333333],\n  [0.        , 0.        ]]])",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.Tensor.acosh_": {
+    "semantics": {
+      "definition": "Inplace version of ``acosh`` API, the output Tensor will be inplaced with input ``x``.\nPlease refer to :ref:`api_paddle_acosh`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "Inplace version of ``acosh`` API, the output Tensor will be inplaced with input ``x``.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "acosh_(x, name=None)"
+        },
+        "name": {
+          "description": "Inplace version of ``acosh`` API, the output Tensor will be inplaced with input ``x``.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "acosh_(x, name=None)"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "On-site operation",
+          "variations": [
+            "Inplace version of ``acosh`` API, the output Tensor will be inplaced with input ``x``."
+          ],
+          "rationale": "Inplace version of ``acosh`` API, the output Tensor will be inplaced with input ``x``."
+        }
+      ],
+      "example": []
+    }
+  },
+  "paddle.assign": {
+    "semantics": {
+      "definition": "Copy value of the :attr:`x` to the :attr:`output`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "A Tensor, numpy ndarray, tuple/list of scalar, or scalar. Its data type can be float16, float32, float64, int32, int64 or bool. Note: the float64 data will be converted to float32 because of current platform protobuf data limitation.",
+          "values": [
+            "Tensor",
+            "np.ndarray",
+            "list",
+            "tuple",
+            "scalar"
+          ],
+          "source": "x (Tensor|np.ndarray|list|tuple|scalar): A Tensor, numpy ndarray, tuple/list of scalar, or scalar. Its data type can be float16, float32, float64, int32, int64 or bool. Note: the float64 data will be converted to float32 because of current platform protobuf data limitation."
+        },
+        "output": {
+          "description": "A Tensor. If :attr:`output` is None, a new Tensor will be created as :attr:`output`. Default: None.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "output (Tensor, optional): A Tensor. If :attr:`output` is None, a new Tensor will be created as :attr:`output`. Default: None."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Return a tensor with the same shape, data type, and value as the input x",
+          "variations": [
+            "A Tensor with the same shape, data type and value as :attr:`x`."
+          ],
+          "rationale": "A Tensor with the same shape, data type and value as :attr:`x`."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import paddle\n>>> import numpy as np\n>>> data = paddle.full(shape=[3, 2], fill_value=2.5, dtype='float64')\n>>> print(data.numpy())\n[[2.5 2.5]\n [2.5 2.5]\n [2.5 2.5]]\n>>> array = np.array([[1, 1],\n...                     [3, 4],\n...                     [1, 3]]).astype(np.int64)\n>>> result1 = paddle.zeros(shape=[3, 3], dtype='float32')\n>>> paddle.assign(array, result1)\n>>> print(result1.numpy())\n[[1 1]\n [3 4]\n [1 3]]",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> result2 = paddle.assign(data)\n>>> print(result2.numpy())\n[[2.5 2.5]\n [2.5 2.5]\n [2.5 2.5]]",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> result3 = paddle.assign(np.array([[2.5, 2.5], [2.5, 2.5], [2.5, 2.5]], dtype='float32'))\n>>> print(result3.numpy())\n[[2.5 2.5]\n [2.5 2.5]\n [2.5 2.5]]",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "paddle.acos_": {
+    "semantics": {
+      "definition": "Inplace version of ``acos`` API, the output Tensor will be inplaced with input ``x``.\nPlease refer to :ref:`api_paddle_acos`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "Inplace version of ``acos`` API, the output Tensor will be inplaced with input ``x``.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "x"
+        },
+        "name": {
+          "description": "name=None",
+          "values": [
+            "Unannotated type"
+          ],
+          "source": "name=None"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "The output tensor reuses the input tensor in-place",
+          "variations": [
+            "the output Tensor will be inplaced with input ``x``"
+          ],
+          "rationale": "the output Tensor will be inplaced with input ``x``"
+        }
+      ],
+      "example": []
+    }
+  }
+}

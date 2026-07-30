@@ -1,0 +1,641 @@
+{
+  "oneflow.var": {
+    "semantics": {
+      "definition": "Returns the variance of each row of the `input` tensor in the given dimension `dim`.\n\nIf `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim`\nwhere it is of size 1. Otherwise, dim is squeezed (see `flow.squeeze()`), resulting in the output\ntensor having 1 (or `len(dim)`) fewer dimension(s).",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input tensor.",
+          "values": [
+            "Tensor"
+          ],
+          "source": "input (Tensor): the input tensor."
+        },
+        "dim": {
+          "description": "the dimension or dimensions to reduce. Defaults to None.",
+          "values": [
+            "int or tuple of ints"
+          ],
+          "source": "dim (int or tuple of ints): the dimension or dimensions to reduce. Defaults to None."
+        },
+        "unbiased": {
+          "description": "whether to use Bessel’s correction (:math:`\\delta N = 1`). Defaults to True.",
+          "values": [
+            "bool"
+          ],
+          "source": "unbiased (bool, optional): whether to use Bessel’s correction (:math:`\\delta N = 1`). Defaults to True."
+        },
+        "keepdim": {
+          "description": "whether the output tensor has dim retained or not. Defaults to False.",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool, optional): whether the output tensor has dim retained or not. Defaults to False."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "The output tensor size is adjusted according to keepdim and dim",
+          "variations": [
+            "If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim`\nwhere it is of size 1. Otherwise, dim is squeezed (see `flow.squeeze()`), resulting in the output\ntensor having 1 (or `len(dim)`) fewer dimension(s)."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        },
+        {
+          "scenario": "Return the variance result on the specified axis",
+          "variations": [
+            "Returns the variance of each row of the `input` tensor in the given dimension `dim`."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        },
+        {
+          "scenario": "Return type is Tensor",
+          "variations": [
+            "Returns:\n        Tensor: The result of variance on the specified axis of input Tensor"
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import numpy as np\n>>> import oneflow as flow\n\n>>> input = flow.tensor(np.random.randn(2, 3, 4, 5))\n>>> output = flow.var(input, 1, True)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.nansum": {
+    "semantics": {
+      "definition": "Returns the sum of each row of the ``input`` tensor in the given dimension ``dim`\",\ntreating Not a Numbers (NaNs) as zero. If ``dim`` is a list of dimensions, \nreduce over all of them.\n\nIf ``keepdim`` is ``True``, the output tensor is of the same size as ``input`` except \nin the dimension(s) ``dim`` where it is of size 1. \nOtherwise, ``dim`` is squeezed (see :class:`oneflow.squeeze()`), \nresulting in the output tensor having 1 (or ``len(dim)``) fewer dimension(s).",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the Input Tensor",
+          "values": [
+            "oneflow.Tensor"
+          ],
+          "source": "input (oneflow.Tensor): the Input Tensor"
+        },
+        "dim": {
+          "description": "the dimension to reduce. Default: ``None``",
+          "values": [
+            "int"
+          ],
+          "source": "dim (int, optional): the dimension to reduce. Default: ``None``"
+        },
+        "keepdim": {
+          "description": "whether the output tensor has ``dim`` retained or not. Default: `False`",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool, optional): whether the output tensor has ``dim`` retained or not. Default: `False`"
+        },
+        "dtype": {
+          "description": "the desired data type of returned tensor. \n            If specified, the input tensor is casted to dtype before the operation is performed.\n            This is useful for preventing data type overflows. Default: ``None``.",
+          "values": [
+            "oneflow.dtype"
+          ],
+          "source": "dtype (oneflow.dtype, optional): the desired data type of returned tensor. \n            If specified, the input tensor is casted to dtype before the operation is performed.\n            This is useful for preventing data type overflows. Default: ``None``."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Sum NaN as zero",
+          "variations": [
+            "treating Not a Numbers (NaNs) as zero"
+          ],
+          "rationale": "treating Not a Numbers (NaNs) as zero"
+        },
+        {
+          "scenario": "When keepdim is True, the output tensor has size 1 in the dim dimension",
+          "variations": [
+            "If ``keepdim`` is ``True``, the output tensor is of the same size as ``input`` except \nin the dimension(s) ``dim`` where it is of size 1."
+          ],
+          "rationale": "If ``keepdim`` is ``True``, the output tensor is of the same size as ``input`` except \nin the dimension(s) ``dim`` where it is of size 1."
+        },
+        {
+          "scenario": "When keepdim is False, the dim dimension is squeezed",
+          "variations": [
+            "Otherwise, ``dim`` is squeezed (see :class:`oneflow.squeeze()`), \nresulting in the output tensor having 1 (or ``len(dim)``) fewer dimension(s)."
+          ],
+          "rationale": "Otherwise, ``dim`` is squeezed (see :class:`oneflow.squeeze()`), \nresulting in the output tensor having 1 (or ``len(dim)``) fewer dimension(s)."
+        },
+        {
+          "scenario": "Return 0 when all inputs are NaN",
+          "variations": [
+            ">>> x = flow.tensor([float(\"nan\") for i in range(3)])\n>>> flow.nansum(x)\ntensor(0., dtype=oneflow.float32)"
+          ],
+          "rationale": ">>> x = flow.tensor([float(\"nan\") for i in range(3)])\n>>> flow.nansum(x)\ntensor(0., dtype=oneflow.float32)"
+        },
+        {
+          "scenario": "When dim is a list, reduce over all specified dimensions",
+          "variations": [
+            "If ``dim`` is a list of dimensions, \nreduce over all of them."
+          ],
+          "rationale": "If ``dim`` is a list of dimensions, \nreduce over all of them."
+        },
+        {
+          "scenario": "The interface is consistent with PyTorch",
+          "variations": [
+            "The interface is consistent with PyTorch."
+          ],
+          "rationale": "The interface is consistent with PyTorch."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import oneflow as flow\n>>> x = flow.tensor([1., 2., float(\"nan\")])\n>>> flow.nansum(x)\ntensor(3., dtype=oneflow.float32)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> x = flow.tensor([[1., float(\"nan\")], [float(\"nan\"), 2]])\n>>> flow.nansum(x, dim=1)\ntensor([1., 2.], dtype=oneflow.float32)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> x = flow.tensor([float(\"nan\") for i in range(3)])\n>>> flow.nansum(x)\ntensor(0., dtype=oneflow.float32)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.gelu": {
+    "semantics": {
+      "definition": "Applies the Gaussian Error Linear Units function:\n\n.. math:: \\text{GELU}(x) = x * \\Phi(x)\n\nwhere :math:`\\Phi(x)` is the Cumulative Distribution Function for Gaussian Distribution.\n\nWhen the approximate argument is 'tanh', Gelu is estimated with:\n\n.. math:: \\text{GELU}(x) = 0.5 * x * (1 + \\text{Tanh}(\\sqrt(2 / \\pi) * (x + 0.044715 * x^3)))",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "Input Tensor",
+          "values": [
+            "oneflow.Tensor"
+          ],
+          "source": "input (oneflow.Tensor): Input Tensor"
+        },
+        "approximate": {
+          "description": "the gelu approximation algorithm to use:\n            ``'none'`` | ``'tanh'``. Default: ``'none'``",
+          "values": [
+            "string"
+          ],
+          "source": "approximate (string, optional): the gelu approximation algorithm to use:\n            ``'none'`` | ``'tanh'``. Default: ``'none'``"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Apply the Gaussian Error Linear Unit function",
+          "variations": [
+            "Applies the Gaussian Error Linear Units function:\n\n.. math:: \\text{GELU}(x) = x * \\Phi(x)\n\nwhere :math:`\\Phi(x)` is the Cumulative Distribution Function for Gaussian Distribution."
+          ],
+          "rationale": "Applies the Gaussian Error Linear Units function:\n\n.. math:: \\text{GELU}(x) = x * \\Phi(x)\n\nwhere :math:`\\Phi(x)` is the Cumulative Distribution Function for Gaussian Distribution."
+        },
+        {
+          "scenario": "When approximate is 'tanh', use the approximation algorithm",
+          "variations": [
+            "When the approximate argument is 'tanh', Gelu is estimated with:\n\n.. math:: \\text{GELU}(x) = 0.5 * x * (1 + \\text{Tanh}(\\sqrt(2 / \\pi) * (x + 0.044715 * x^3)))"
+          ],
+          "rationale": "When the approximate argument is 'tanh', Gelu is estimated with:\n\n.. math:: \\text{GELU}(x) = 0.5 * x * (1 + \\text{Tanh}(\\sqrt(2 / \\pi) * (x + 0.044715 * x^3)))"
+        },
+        {
+          "scenario": "Return a tensor with the same shape as the input",
+          "variations": [
+            "Returns:\n        oneflow.Tensor: A Tensor has same shape as the input."
+          ],
+          "rationale": "Returns:\n        oneflow.Tensor: A Tensor has same shape as the input."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import numpy as np\n>>> import oneflow as flow\n\n>>> x = np.array([-0.5, 0, 0.5]).astype(np.float32)\n>>> input = flow.tensor(x)\n\n>>> out = flow.gelu(input)\n>>> out\ntensor([-0.1543,  0.0000,  0.3457], dtype=oneflow.float32)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.randn_like": {
+    "semantics": {
+      "definition": "Returns a tensor with the same size as `input` that is filled with random numbers from a normal distribution with mean 0 and variance 1.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the size of ``input`` will determine size of the output tensor.",
+          "values": [
+            "oneflow.Tensor"
+          ],
+          "source": "input (oneflow.Tensor): the size of ``input`` will determine size of the output tensor."
+        },
+        "dtype": {
+          "description": "The desired data type of returned tensor. defaults to the dtype of `input`.",
+          "values": [
+            "flow.dtype"
+          ],
+          "source": "dtype (flow.dtype, optional): The desired data type of returned tensor. defaults to the dtype of `input`."
+        },
+        "generator": {
+          "description": "a pseudorandom number generator for sampling",
+          "values": [
+            "flow.Generator"
+          ],
+          "source": "generator (flow.Generator, optional): a pseudorandom number generator for sampling"
+        },
+        "device": {
+          "description": "The desired device of returned local tensor. If None, defaults to the device of `input`.",
+          "values": [
+            "flow.device"
+          ],
+          "source": "device (flow.device, optional): The desired device of returned local tensor. If None, defaults to the device of `input`."
+        },
+        "placement": {
+          "description": "The desired device of returned global tensor. If None, will\n  construct local tensor.",
+          "values": [
+            "flow.placement"
+          ],
+          "source": "placement (flow.placement, optional): The desired device of returned global tensor. If None, will\n  construct local tensor."
+        },
+        "sbp": {
+          "description": "The desired sbp of returned global tensor. It must be equal with the\n  numbers of placement, If None, will construct local tensor.",
+          "values": [
+            "flow.sbp"
+          ],
+          "source": "sbp (flow.sbp, optional): The desired sbp of returned global tensor. It must be equal with the\n  numbers of placement, If None, will construct local tensor."
+        },
+        "requires_grad": {
+          "description": "If autograd should record operations on the returned tensor. Default: False.",
+          "values": [
+            "bool"
+          ],
+          "source": "requires_grad (bool, optional): If autograd should record operations on the returned tensor. Default: False."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Equivalent to specifying shape and type of randn",
+          "variations": [
+            "flow.randn_like(input) is equivalent to flow.randn(input.size(), dtype=input.dtype, device=input.device)."
+          ],
+          "rationale": "flow.randn_like(input) is equivalent to flow.randn(input.size(), dtype=input.dtype, device=input.device)."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import oneflow as flow\n>>> x = flow.randn(3,3) # construct local tensor\n>>> y = flow.randn_like(x)\n>>> y.shape\noneflow.Size([3, 3])\n>>> y.is_global\nFalse\n>>> placement = flow.placement(\"cpu\", ranks=[0])\n>>> sbp = flow.sbp.broadcast\n>>> z = flow.randn_like(y, placement=placement, sbp=sbp) # construct global tensor\n>>> z.is_global\nTrue",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.logspace": {
+    "semantics": {
+      "definition": "Creates a one-dimensional tensor of size :attr:`steps` whose values are evenly\nspaced from :math:`{{\\text{{base}}}}^{{\\text{{start}}}}` to\n:math:`{{\\text{{base}}}}^{{\\text{{end}}}}`, inclusive, on a logarithmic scale\nwith base :attr:`base`. That is, the values are:\n\n.. math::\n    (\\text{base}^{\\text{start}},\n    \\text{base}^{(\\text{start} + \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\ldots,\n    \\text{base}^{(\\text{start} + (\\text{steps} - 2) * \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\text{base}^{\\text{end}})",
+      "syntax_constraint": "",
+      "param": {
+        "start": {
+          "description": "the starting value for the set of points",
+          "values": [
+            "float"
+          ],
+          "source": "start (float): the starting value for the set of points"
+        },
+        "end": {
+          "description": "the ending value for the set of points",
+          "values": [
+            "float"
+          ],
+          "source": "end (float): the ending value for the set of points"
+        },
+        "steps": {
+          "description": "size of the constructed tensor",
+          "values": [
+            "int"
+          ],
+          "source": "steps (int): size of the constructed tensor"
+        },
+        "base": {
+          "description": "base of the logarithm function. Default: ``10.0``.",
+          "values": [
+            "float"
+          ],
+          "source": "base (float, optional): base of the logarithm function. Default: ``10.0``."
+        },
+        "dtype": {
+          "description": "the data type to perform the computation in.\n            Default: if None, uses the global default dtype (see oneflow.get_default_dtype())\n            when both :attr:`start` and :attr:`end` are real,\n            and corresponding complex dtype when either is complex.",
+          "values": [
+            "oneflow._oneflow_internal.dtype"
+          ],
+          "source": "dtype (oneflow._oneflow_internal.dtype = None): the data type to perform the computation in.\n            Default: if None, uses the global default dtype (see oneflow.get_default_dtype())\n            when both :attr:`start` and :attr:`end` are real,\n            and corresponding complex dtype when either is complex."
+        },
+        "device": {
+          "description": "the desired device of returned tensor. Default: if None, uses the current device for the default tensor type",
+          "values": [
+            "Union[str, oneflow._oneflow_internal.device]"
+          ],
+          "source": "device (Union[str, oneflow._oneflow_internal.device] = None): the desired device of returned tensor. Default: if None, uses the current device for the default tensor type"
+        },
+        "placement": {
+          "description": "the desired placement of returned global tensor. Default: if None, the returned tensor is local one using the argument `device`.",
+          "values": [
+            "oneflow._oneflow_internal.placement"
+          ],
+          "source": "placement (oneflow._oneflow_internal.placement = None): the desired placement of returned global tensor. Default: if None, the returned tensor is local one using the argument `device`."
+        },
+        "sbp": {
+          "description": "the desired sbp descriptor of returned global tensor. Default: if None, the returned tensor is local one using the argument `device`.",
+          "values": [
+            "Union[oneflow._oneflow_internal.sbp.sbp, List[oneflow._oneflow_internal.sbp.sbp]]"
+          ],
+          "source": "sbp (Union[oneflow._oneflow_internal.sbp.sbp, List[oneflow._oneflow_internal.sbp.sbp]] = None): the desired sbp descriptor of returned global tensor. Default: if None, the returned tensor is local one using the argument `device`."
+        },
+        "requires_grad": {
+          "description": "If autograd should record operations on the returned tensor. Default: False.",
+          "values": [
+            "bool"
+          ],
+          "source": "requires_grad (bool = False): If autograd should record operations on the returned tensor. Default: False."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Create a 1D tensor with a logarithmic uniform distribution",
+          "variations": [
+            "Creates a one-dimensional tensor of size :attr:`steps` whose values are evenly\nspaced from :math:`{{\\text{{base}}}}^{{\\text{{start}}}}` to\n:math:`{{\\text{{base}}}}^{{\\text{{end}}}}`, inclusive, on a logarithmic scale\nwith base :attr:`base`. That is, the values are:\n\n.. math::\n    (\\text{base}^{\\text{start}},\n    \\text{base}^{(\\text{start} + \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\ldots,\n    \\text{base}^{(\\text{start} + (\\text{steps} - 2) * \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\text{base}^{\\text{end}})"
+          ],
+          "rationale": "Creates a one-dimensional tensor of size :attr:`steps` whose values are evenly\nspaced from :math:`{{\\text{{base}}}}^{{\\text{{start}}}}` to\n:math:`{{\\text{{base}}}}^{{\\text{{end}}}}`, inclusive, on a logarithmic scale\nwith base :attr:`base`. That is, the values are:\n\n.. math::\n    (\\text{base}^{\\text{start}},\n    \\text{base}^{(\\text{start} + \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\ldots,\n    \\text{base}^{(\\text{start} + (\\text{steps} - 2) * \\frac{\\text{end} - \\text{start}}{ \\text{steps} - 1})},\n    \\text{base}^{\\text{end}})"
+        },
+        {
+          "scenario": "Equivalent to PyTorch's logspace function",
+          "variations": [
+            "This function is equivalent to PyTorch’s logspace function. "
+          ],
+          "rationale": "This function is equivalent to PyTorch’s logspace function. "
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import oneflow as flow\n>>> flow.logspace(start=-10, end=10, steps=2)\ntensor([1.0000e-10, 1.0000e+10], dtype=oneflow.float32)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> flow.logspace(start=0.1, end=1.0, steps=5)\ntensor([ 1.2589,  2.1135,  3.5481,  5.9566, 10.0000], dtype=oneflow.float32)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> flow.logspace(start=0.1, end=1.0, steps=1)\ntensor([1.2589], dtype=oneflow.float32)",
+          "source": "Document original"
+        },
+        {
+          "code": ">>> flow.logspace(start=2, end=2, steps=1, base=2)\ntensor([4.], dtype=oneflow.float32)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.mish": {
+    "semantics": {
+      "definition": "Applies the element-wise function:\n\n.. math::\n            ext{mish}(x) = x *      ext{tanh}(      ext{softplus}(x))",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "x: Tensor",
+          "values": [
+            "Tensor"
+          ],
+          "source": "mish(x: Tensor) -> Tensor"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Compute element-wise Mish function",
+          "variations": [
+            "mish(x) = x * tanh(softplus(x))"
+          ],
+          "rationale": "Applies the element-wise function:\n\n.. math::\n            ext{mish}(x) = x *      ext{tanh}(      ext{softplus}(x))"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import numpy as np\n>>> import oneflow as flow\n\n>>> x = np.array([1, 2, 3]).astype(np.float32)\n>>> input = flow.tensor(x)        \n\n>>> out = flow.mish(input)\n>>> out",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.amin": {
+    "semantics": {
+      "definition": "Returns the minimum value of each slice of the `input` tensor in the given dimension(s) `dim`.\n\nIf `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1. Otherwise, `dim` is squeezed (see :func:`oneflow.squeeze`), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s).\n\nThis function is equivalent to PyTorch’s amin function.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the input Tensor.",
+          "values": [
+            "oneflow.Tensor"
+          ],
+          "source": "input (oneflow.Tensor): the input Tensor."
+        },
+        "dim": {
+          "description": "the dimension or dimensions to reduce.",
+          "values": [
+            "int",
+            "Tuple[int]"
+          ],
+          "source": "dim (int, Tuple[int]): the dimension or dimensions to reduce."
+        },
+        "keepdim": {
+          "description": "whether the output tensor has `dim` retained or not.",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool): whether the output tensor has `dim` retained or not."
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Return the minimum value on the specified dimension",
+          "variations": [
+            "Returns the minimum value of each slice of the `input` tensor in the given dimension(s) `dim`."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        },
+        {
+          "scenario": "Keep dimension size",
+          "variations": [
+            "If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        },
+        {
+          "scenario": "Compress dimensions",
+          "variations": [
+            "Otherwise, `dim` is squeezed (see :func:`oneflow.squeeze`), resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s)."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        },
+        {
+          "scenario": "Equivalent to PyTorch",
+          "variations": [
+            "This function is equivalent to PyTorch’s amin function."
+          ],
+          "rationale": "The document clearly describes the behavioral rules"
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import oneflow as flow\n               \n>>> x = flow.tensor([[[0,1],[2,3]],[[4,5],[6,7]]])\n>>> flow.amin(x, 1)\ntensor([[0, 1],\n        [4, 5]], dtype=oneflow.int64)\n>>> flow.amin(x, 0)\ntensor([[0, 1],\n        [2, 3]], dtype=oneflow.int64)\n>>> flow.amin(x)\ntensor(0, dtype=oneflow.int64)\n>>> flow.amin(x, 0, True)\ntensor([[[0, 1],\n         [2, 3]]], dtype=oneflow.int64)",
+          "source": "Document original"
+        }
+      ]
+    }
+  },
+  "oneflow.softplus": {
+    "semantics": {
+      "definition": "Applies the element-wise function:\n\n.. math::\n    \\text{Softplus}(x) = \\frac{1}{\\beta} * \\log(1 + \\exp(\\beta * x))   \n\nFor numerical stability the implementation reverts to the linear function\nwhen :math:`input \\times \\beta > threshold`.",
+      "syntax_constraint": "",
+      "param": {
+        "x": {
+          "description": "",
+          "values": [
+            "Tensor"
+          ],
+          "source": "x: Tensor"
+        },
+        "beta": {
+          "description": "",
+          "values": [
+            "double"
+          ],
+          "source": "beta: double = 1"
+        },
+        "threshold": {
+          "description": "",
+          "values": [
+            "double"
+          ],
+          "source": "threshold: double = 20"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Apply the Softplus activation function to the input",
+          "variations": [
+            "Applies the element-wise function:\n\n.. math::\n    \\text{Softplus}(x) = \\frac{1}{\\beta} * \\log(1 + \\exp(\\beta * x))"
+          ],
+          "rationale": "Applies the element-wise function:\n\n.. math::\n    \\text{Softplus}(x) = \\frac{1}{\\beta} * \\log(1 + \\exp(\\beta * x))"
+        },
+        {
+          "scenario": "Fallback to linear function when numerical stability is achieved",
+          "variations": [
+            "For numerical stability the implementation reverts to the linear function\nwhen :math:`input \\times \\beta > threshold`."
+          ],
+          "rationale": "For numerical stability the implementation reverts to the linear function\nwhen :math:`input \\times \\beta > threshold`."
+        }
+      ],
+      "example": []
+    }
+  },
+  "oneflow.set_printoptions": {
+    "semantics": {
+      "definition": "Set options for printing. Items shamelessly taken from NumPy",
+      "syntax_constraint": "linewidth equals to terminal columns, manual setting will invalidate the default automatic setting.",
+      "param": {
+        "precision": {
+          "description": "Number of digits of precision for floating point output\n            (default = 4).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "precision: Number of digits of precision for floating point output\n            (default = 4)."
+        },
+        "threshold": {
+          "description": "Total number of array elements which trigger summarization\n            rather than full `repr` (default = 1000).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "threshold: Total number of array elements which trigger summarization\n            rather than full `repr` (default = 1000)."
+        },
+        "edgeitems": {
+          "description": "Number of array items in summary at beginning and end of\n            each dimension (default = 3).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "edgeitems: Number of array items in summary at beginning and end of\n            each dimension (default = 3)."
+        },
+        "linewidth": {
+          "description": "The number of characters per line for the purpose of\n            inserting line breaks (default = terminal_columns).",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "linewidth: The number of characters per line for the purpose of\n            inserting line breaks (default = terminal_columns)."
+        },
+        "profile": {
+          "description": "Sane defaults for pretty printing. Can override with any of\n            the above options. (any one of `default`, `short`, `full`)",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "profile: Sane defaults for pretty printing. Can override with any of\n            the above options. (any one of `default`, `short`, `full`)"
+        },
+        "sci_mode": {
+          "description": "Enable (True) or disable (False) scientific notation. If\n            None (default) is specified, the value is defined by\n            `oneflow._tensor_str._Formatter`. This value is automatically chosen\n            by the framework.",
+          "values": [
+            "Unlabeled type"
+          ],
+          "source": "sci_mode: Enable (True) or disable (False) scientific notation. If\n            None (default) is specified, the value is defined by\n            `oneflow._tensor_str._Formatter`. This value is automatically chosen\n            by the framework."
+        }
+      },
+      "functionality": [],
+      "example": []
+    }
+  },
+  "oneflow.sum": {
+    "semantics": {
+      "definition": "Computes the sum of row of elements in a tensor in the given dimension. If the dimension is None, sum of all elements will be caculated.",
+      "syntax_constraint": "",
+      "param": {
+        "input": {
+          "description": "the Input Tensor",
+          "values": [
+            "oneflow.Tensor"
+          ],
+          "source": "input (oneflow.Tensor): the Input Tensor"
+        },
+        "dim": {
+          "description": "the dimension to reduce. Default: `None`",
+          "values": [
+            "int or tuple of ints"
+          ],
+          "source": "dim (int or tuple of ints, optional): the dimension to reduce. Default: `None`"
+        },
+        "keepdim": {
+          "description": "whether the output tensor has dim retained or not. Default: `False`",
+          "values": [
+            "bool"
+          ],
+          "source": "keepdim (bool, optional): whether the output tensor has dim retained or not. Default: `False`"
+        }
+      },
+      "functionality": [
+        {
+          "scenario": "Calculate the sum of tensor elements along the specified dimension",
+          "variations": [
+            "Computes the sum of row of elements in a tensor in the given dimension. If the dimension is None, sum of all elements will be caculated."
+          ],
+          "rationale": "Computes the sum of row of elements in a tensor in the given dimension. If the dimension is None, sum of all elements will be caculated."
+        },
+        {
+          "scenario": "When keeping dimensions, the output tensor has size 1 on the specified dimension",
+          "variations": [
+            "If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1."
+          ],
+          "rationale": "If `keepdim` is `True`, the output tensor is of the same size as `input` except in the dimension(s) `dim` where it is of size 1."
+        },
+        {
+          "scenario": "Compress the specified dimension without preserving dimensions",
+          "variations": [
+            "Otherwise, `dim` is squeezed :func:`oneflow.squeeze()`, resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s)."
+          ],
+          "rationale": "Otherwise, `dim` is squeezed :func:`oneflow.squeeze()`, resulting in the output tensor having 1 (or `len(dim)`) fewer dimension(s)."
+        }
+      ],
+      "example": [
+        {
+          "code": ">>> import oneflow as flow\n\n>>> input = flow.Tensor([[1, 2, 3], [4, 5, 6]])\n>>> flow.sum(input)\ntensor(21., dtype=oneflow.float32)\n>>> flow.sum(input, dim=0)\ntensor([5., 7., 9.], dtype=oneflow.float32)\n>>> flow.sum(input, dim=1)\ntensor([ 6., 15.], dtype=oneflow.float32)",
+          "source": "Document original"
+        }
+      ]
+    }
+  }
+}
